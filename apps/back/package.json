@@ -5,10 +5,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "node src/index.js",
-    "lint:prettier": "prettier --list-different \"src/**/*.{json,html,yml,tsx,ts,js,jsx}\"",
-    "lint:eslint": "eslint --ext .ts,.tsx,.js,.jsx \"./src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:typeCheck": "tsc --pretty",
-    "lint": "FORCE_COLOR=1 npm-run-all -p --print-label \"lint:**\"",
     "clean": "rm -rf .next out .turbo"
   },
   "devDependencies": {

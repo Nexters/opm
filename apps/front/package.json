@@ -6,11 +6,7 @@
     "clean": "rm -rf .next out .turbo node_modules",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint:prettier": "prettier --list-different \"./{pages,components}/**/*.{json,html,yml,tsx,ts,js,jsx}\"",
-    "lint:eslint": "eslint --ext .ts,.tsx,.js,.jsx \"./**/*.{js,jsx,ts,tsx}\"",
-    "lint:typeCheck": "tsc --pretty",
-    "lint": "FORCE_COLOR=1 npm-run-all -p --print-label \"lint:**\""
+    "start": "next start"
   },
   "dependencies": {
     "next": "12.2.1",

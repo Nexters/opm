@@ -14,15 +14,11 @@ server.listen(PORT, (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  socket.on("setUser", (data) => {
-    console.log(data);
-
-    io.emit("enter", data);
-  });
+  console.log('user connected!');
 
   socket.on("message", (data) => {
     console.log("client가 보낸 데이터: ", data);
-    io.emit("upload", data);
+    console.log(data.messageId);
   });
 
   socket.on("leaveUser", (nick) => {

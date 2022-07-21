@@ -6,14 +6,25 @@ import { io } from "socket.io-client";
 
 import { SocketPath, Url } from "../models";
 import styles from "../styles/Home.module.scss";
+import { MessageSocket } from "../types";
 
 const Board: NextPage = () => {
   const [socketId, setSocketId] = useState<string>();
+  const [message, setMessage] = useState<MessageSocket>({
+    messageId: '1',
+    boardId: '1',
+    from: 'me',
+    to: 'you',
+    type: 'NORMAL',
+    timestamp: '',
+    textBody: 'this is message',
+  });
 
   useEffect((): any => {
     const socket = io(Url.SOCKET, { transports: ["websocket"] });
-    socket.on(SocketPath.CONNECTION, () => {
+    socket.on(SocketPath.CONNECTION, (data) => {
       setSocketId(socket.id);
+      socket.emit('message', message);
     });
 
     return () => {
