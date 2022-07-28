@@ -16,7 +16,7 @@ server.listen(PORT, (req, res) => {
   console.info(`Listening on port ${PORT}`);
 });
 
-const { swaggerUi, specs } = require("../swagger/swagger");
+const { swaggerUi, specs } = require("./swagger/swagger");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(require("./routes"));

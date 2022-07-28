@@ -9,6 +9,6 @@ console.log("test");
 router.get("/user/all", user.showAll); // 모든 회원정보 보기
 
 // Article - 게시글 == 채팅방
-router.get("/api/allArticles", board.getAllArticles);
+router.get("/article/all", board.showAll);
 
 module.exports = router;
