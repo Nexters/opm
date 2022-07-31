@@ -15,6 +15,34 @@ const Navigation: NextPage<NavigationProps> = ({
 }) => {
   const homeTrans = isHome && isTop;
 
+  const user = window.localStorage.getItem('user');
+
+  // TODO: 유효성 검증
+  const checkUserValidation = (user: any) => {
+    if (!user) {
+      return false;
+    }
+    return true;
+  }
+
+  const handleProfile = () => {
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+    const isValid = checkUserValidation(user);
+    window.location.href = isValid ? '/profile' : '/login';
+  }
+
+  const handleRequest = () => {
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+    const isValid = checkUserValidation(user);
+    window.location.href = isValid ? '/contentRequest' : '/login';
+  }
+
   return (
     <div className={styles.default}>
       <div className={styles.logo}>
@@ -25,7 +53,7 @@ const Navigation: NextPage<NavigationProps> = ({
         </Link>
       </div>
       <div className={styles.links}>
-        <Link href="/profile">
+        <div onClick={handleProfile}>
           <a>
             {homeTrans ? (
               <Image
@@ -43,7 +71,7 @@ const Navigation: NextPage<NavigationProps> = ({
               />
             )}
           </a>
-        </Link>
+        </div>
         <div>
           {homeTrans ? (
             <Image
@@ -58,6 +86,7 @@ const Navigation: NextPage<NavigationProps> = ({
         </div>
         <button
           className={homeTrans ? styles.buttonTransparent : styles.button}
+          onClick={handleRequest}
         >
           Request
         </button>
