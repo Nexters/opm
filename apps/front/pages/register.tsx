@@ -31,7 +31,7 @@ const Register: NextPage = () => {
         <div>
           <div className={styles.img2}></div>
         </div>
-        <div>
+        <div className={styles.rightContainer}>
           <div className={styles.title}>Join the Community.</div>
           <div className={styles.description}>
             Let&apos;s get you all set up so you can vertify your personal

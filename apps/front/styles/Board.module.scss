@@ -1,3 +1,6 @@
+@import './_color.scss';
+@import './Login.module.scss';
+
 .container {
   position: absolute;
   top: 0;
@@ -29,7 +32,7 @@
 }
 
 .textBox {
-  background-color: #ffffff;
+  background-color: $white;
   height: 90%;
   width: 100%;
   flex-shrink: 0;
@@ -37,7 +40,7 @@
   word-wrap: break-word;
   word-break: break-word;
   position: relative;
-  color: #333333;
+  color: $gray600;
   line-height: 3;
   border-radius: 12px;
   padding: 20px;
@@ -60,10 +63,9 @@
 .acceptButton {
   padding: 22px 0;
   width: 48%;
-  background-color: #4455bb;
+  background-color: $royalBlue600;
   border-radius: 8px;
-
-  color: #ffffff;
+  color: $white;
   font-weight: bold;
   cursor: pointer;
 }
@@ -71,11 +73,11 @@
 .editingButton {
   padding: 22px 0;
   width: 48%;
-  background-color: #ffffff;
+  background-color: $white;
   border-radius: 8px;
   box-sizing: border-box;
-  border: 2px solid #4455BB;
-  color: #4455BB;
+  border: 2px solid $royalBlue300;
+  color: $royalBlue300;
   font-weight: bold;
   cursor: pointer;
 }
@@ -83,10 +85,9 @@
 .completionButton {
   padding: 22px 0;
   width: 48%;
-  background-color: #fafafa;
+  background-color: $gray200;
   border-radius: 8px;
-
-  color: #bbbbbb;
+  color: $gray300;
   font-weight: bold;
   cursor: pointer;
 }
@@ -97,4 +98,64 @@
   background-color: #DDDDDD;
   overflow: auto;
   border-radius: 12px;
+}
+
+// contentRequest
+.main {
+  margin: 150px 180px;
+}
+
+.backBtn {
+  margin-bottom: 36px;
+}
+
+.leftContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.requestContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 58px;
+  margin: 80px 0px 150px 0px;
+}
+
+.inputTitle {
+  width: 760px;
+  height: 56px;
+  padding: 0px 32px;
+  border: none;
+  border-radius: 12px;
+  color: $gray800;
+  font-size: 20px;
+}
+
+.inputDescription {
+  width: 760px;
+  height: 104px;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  color: $gray800;
+  font-size: 20px;
+}
+
+.guideText {
+  color: $gray600;
+  font-size: 16px;
+  letter-spacing: 1.2px;
+}
+
+.nextButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.img3 {
+  width: 440px;
+  height: 756px;
+  border-radius: 12px;
+  background-color: #dddddd;
 }
