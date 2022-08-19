@@ -51,8 +51,8 @@ const showArticleListByUser = async (req: Request, res: Response) => {
 };
 
 const showEditingListByUser = async (req: Request, res: Response) => {
-  const { eId } = req.body;
-  const foundArticleList = await Board.find({ eId: eId }).sort({ _id: -1 });
+  const { uId } = req.body;
+  const foundArticleList = await Board.find({ eId: uId }).sort({ _id: -1 });
   if (foundArticleList.length === 0) {
     return res.status(200).send({ code: StatusCode.NO_CONTENT });
   }
