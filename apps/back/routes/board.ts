@@ -1,42 +1,16 @@
 import { randomUUID } from "crypto";
 
 import { Request, Response } from "express";
-import {
-  BoardEditData,
-  BoardInfo,
-  StatusCode,
-  BoardNotiKey,
-  BoardNotiText,
-} from "opm-models";
-import { UserNotificationList } from "opm-models/dist/models/user";
+import { BoardEditData, BoardInfo, StatusCode } from "opm-models";
 
 import Board from "../models/board.model";
 import User from "../models/user.model";
 
-const seqCheck = (seq) => {
+const seqCheck = (seq: number) => {
   if (seq) {
     return seq + 1;
   }
   return 1;
-};
-
-const NotiText: Record<BoardNotiKey, BoardNotiText> = {
-  accept: BoardNotiText.accept,
-  cancel: BoardNotiText.cancel,
-  proofread: BoardNotiText.proofread,
-  complete: BoardNotiText.complete,
-};
-
-const makeNotiData = (notiList, articleTitle, text) => {
-  const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
-
-  const newNotiData: UserNotificationList = {
-    seq: seqCheck(isSeq),
-    checked: false,
-    timestamp: new Date().toISOString(),
-    notiBody: `"${articleTitle}" ${text}`,
-  };
-  return newNotiData;
 };
 
 const showArticle = async (req: Request, res: Response) => {
@@ -198,14 +172,6 @@ const acceptArticle = async (req: Request, res: Response) => {
   foundArticle.eId = eId;
   foundArticle.aStatus = "EDITING";
 
-  const notiList = foundUser.uNotiList;
-  const newUserNotiData = makeNotiData(
-    notiList,
-    foundArticle.aTitle,
-    "Article has been accepted.",
-  );
-  notiList.push(newUserNotiData);
-
   try {
     const boardData = await foundArticle.save();
     const userData = await foundUser.save();
@@ -239,14 +205,6 @@ const cancelArticle = async (req: Request, res: Response) => {
 
   foundArticle.eId = "";
   foundArticle.aStatus = "INIT";
-
-  const notiList = foundUser.uNotiList;
-  const newUserNotiData = makeNotiData(
-    notiList,
-    foundArticle.aTitle,
-    "Article proofread was canceled.",
-  );
-  notiList.push(newUserNotiData);
 
   try {
     const boardData = await foundArticle.save();
@@ -289,14 +247,6 @@ const proofreadArticle = async (req: Request, res: Response) => {
   foundArticle.aEditList.push(newBoardEditData);
   foundArticle.aStatus = "DONE";
 
-  const notiList = foundUser.uNotiList;
-  const newUserNotiData = makeNotiData(
-    notiList,
-    foundArticle.aTitle,
-    "Article proofread was done.",
-  );
-  notiList.push(newUserNotiData);
-
   try {
     const boardData = await foundArticle.save();
     const userData = await foundUser.save();
@@ -329,14 +279,6 @@ const completeArticle = async (req: Request, res: Response) => {
   }
 
   foundArticle.aStatus = "COMPLETE";
-
-  const notiList = foundUser.uNotiList;
-  const newUserNotiData = makeNotiData(
-    notiList,
-    foundArticle.aTitle,
-    "We're all finished. You all did a good job!",
-  );
-  notiList.push(newUserNotiData);
 
   try {
     const boardData = await foundArticle.save();

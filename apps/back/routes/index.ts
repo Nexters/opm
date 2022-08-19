@@ -7,7 +7,6 @@ import room from "./room";
 
 const router = Router();
 
-router.post(UserApiPath.all, user.showAllUser);
 router.post(UserApiPath.signup, user.signUpUser);
 router.post(UserApiPath.signIn, user.signIn);
 

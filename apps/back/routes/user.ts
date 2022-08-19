@@ -9,11 +9,6 @@ import User from "../models/user.model";
 const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
 
-const showAllUser = async (req, res) => {
-  const allUser = await User.find();
-  return res.json(allUser);
-};
-
 const signUpUser = async (req: Request, res) => {
   console.info("Requests:", req.body);
 
@@ -51,7 +46,6 @@ const signIn = async (req: Request, res) => {
 };
 
 const user = {
-  showAllUser,
   signUpUser,
   signIn,
 };

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { UserInfo, UserNotificationList } from "opm-models";
+import { UserInfo } from "opm-models";
 
 const userSchema = new mongoose.Schema<UserInfo>({
   uId: "",
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema<UserInfo>({
       seq: "Number",
       checked: "Boolean",
       timestamp: "",
-      notiBody: "",
+      notiBody: "String",
     },
   ],
 });
