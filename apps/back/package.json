@@ -4,7 +4,7 @@
   "description": "back-server",
   "license": "MIT",
   "scripts": {
-    "dev": "docker-compose up -d && ts-node-dev app.ts --watch",
+    "dev": "ts-node-dev app.ts --watch",
     "build": "tsc --project ./tsconfig.json",
     "start": "ts-node app.ts",
     "lint:prettier": "prettier --list-different \"./{routes,swagger}/**/*.{json,html,yml,tsx,ts,js,jsx}\" app.ts",
