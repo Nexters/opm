@@ -14,7 +14,7 @@
     "eslint": "yarn workspace eslint-config-custom",
     "models": "yarn workspace opm-models",
     "build:pkgs": "turbo run build --filter=opm-*",
-    "dev": "docker-compose up && yarn && yarn run build:pkgs && turbo run dev",
+    "dev": "yarn && yarn run build:pkgs && turbo run dev",
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "turbo run lint",
     "fix": "turbo run fix",
