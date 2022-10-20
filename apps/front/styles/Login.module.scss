@@ -4,9 +4,9 @@
 .mainContainer {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 120px;
-  height: 100%;
-  margin: 200px 180px 0 180px;
+  margin: 200px 180px;
 }
 
 .img1 {
@@ -51,6 +51,14 @@
   height: 700px;
 }
 
+.editorBtn {
+  text-align: right;
+  color: #667CFA;
+  font-size: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
 .registerContainer {
   display: inline-flex;
   flex-wrap: wrap;
@@ -77,20 +85,20 @@
   font-size: 12px;
 }
 
-.loginButtonContainer {
+.logInButtonContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 }
 
-.signupContainer {
+.signUpContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.loginBtn {
+.logInBtn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,7 +114,7 @@
   box-shadow: 0px 4px 8px 0px $transparent200;
 }
 
-.signupBtn {
+.signUpBtn {
   color: $royalBlue500;
   font-size: 20px;
   letter-spacing: 1.2px;
@@ -131,4 +139,150 @@
 
 .imageContainer {
   width: 45%;
+}
+
+.notVerifiedDescription {
+  margin: 5px 10px;
+}
+
+.notVerifiedBtn {
+  color: #667CFA;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.editorSignUpBtnContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  width: 100%;
+}
+
+.disableLoginBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 440px;
+  height: 72px;
+  border-radius: 8px;
+  background-color: $gray200;
+  color: $gray300;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px 0px $transparent150;
+}
+
+.profileContainer {
+  gap: 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profileLine {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 10px;
+}
+
+.profileDateBox {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    text-align: center;
+    align-self: center;
+  }
+}
+
+.profileTitle {
+  width: 150px;
+  margin: auto;
+}
+.profileInput {
+  width: 90%;
+  height: 56px;
+  padding: 0px 32px 0px 32px;
+  border: none;
+  border-radius: 12px;
+  color: #636363;
+  font-size: 20px;
+  box-shadow: 0px 4px 16px 0px rgb(71 93 220 / 5%);
+}
+
+.profileDate {
+  width: 48%;
+  height: 56px;
+  padding: 0px 32px 0px 32px;
+  border: none;
+  border-radius: 12px;
+  color: #636363;
+  font-size: 20px;
+  box-shadow: 0px 4px 16px 0px rgb(71 93 220 / 5%);
+}
+
+.biographyInput {
+  width: 100%;
+  height: 260px;
+  padding: 0px 32px 0px 32px;
+  border: none;
+  border-radius: 12px;
+  color: #636363;
+  font-size: 20px;
+  box-shadow: 0px 4px 16px 0px rgb(71 93 220 / 5%);
+  resize: none;
+}
+.fileInput {
+  width: 440px;
+  padding: 0px 32px 0px 32px;
+  margin: auto;
+  border: none;
+  border-radius: 12px;
+  color: $gray600;
+  font-size: 20px;
+
+  &:disabled {
+    background-color: $gray200;
+  }
+}
+
+.resumeFileInput {
+  width: 800px;
+  padding: 0px 22px 0px 32px;
+  margin: 0 0 40px;
+  border: none;
+  color: $gray600;
+  font-size: 20px;
+
+  &:disabled {
+    background-color: $gray200;
+  }
+}
+
+.certificateInput {
+  width: 100%;
+  height: 56px;
+  padding: 0px 32px 0px 32px;
+  border: none;
+  border-radius: 12px;
+  color: #636363;
+  font-size: 20px;
+  box-shadow: 0px 4px 16px 0px rgb(71 93 220 / 5%);
+}
+
+.certificateSubTitle {
+  margin-bottom: 20px;
+}
+
+.certificateGuideTitle {
+  color: #667CFA;
+  font-size: 20px;
+}
+
+.biographyLength {
+  text-align: right;
+  margin-top: -20px;
 }
