@@ -2,14 +2,14 @@ import type { NextPage } from "next";
 import { KeyboardEventHandler, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { UserApiPath } from "opm-models";
+import { UserApiPath, UserLogInData } from "opm-models";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
-import { login } from "../store/slice/user";
+import { logIn } from "../store/slice/user";
 import { Api } from "../helpers/api";
 
 const Login: NextPage = () => {
@@ -43,10 +43,10 @@ const Login: NextPage = () => {
       setValidPassword(false);
       return;
     }
-    handleSignInClick();
+    handleLogInClick();
   };
 
-  const handleSignInClick = async () => {
+  const handleLogInClick = async () => {
     if (!email) {
       setValidEmail(false);
       return;
@@ -55,11 +55,11 @@ const Login: NextPage = () => {
       setValidPassword(false);
       return;
     }
-    const data = {
-      email,
-      password,
+    const data: UserLogInData = {
+      uEmail: email,
+      uPassword: password,
     };
-    const res = await Api.post(UserApiPath.signIn, data);
+    const res = await Api.post(UserApiPath.logIn, data);
     if (!res.ok) {
       setValidEmail(false);
       setValidPassword(false);
@@ -67,31 +67,21 @@ const Login: NextPage = () => {
       return;
     }
     const jsonData = await res.json();
-    dispatch(login(jsonData));
+    dispatch(logIn(jsonData));
     router.push("/");
   };
 
   return (
     <>
       <Head>
-        <title>Sign in</title>
+        <title>Log in</title>
         <meta name="description" content="OPM" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
       <div className={styles.mainContainer}>
-        <div className={styles.imageContainer}>
-          <iframe
-            className={styles.img1}
-            src="https://www.youtube.com/embed/A33AdB4u8GQ?autoplay=1&mute=1"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
-            allowFullScreen
-          ></iframe>
-        </div>
         <div>
-          <div className={styles.title}>Sign In.</div>
+          <div className={styles.title}>Log In.</div>
           <div className={styles.accountContainer}>
             <div className={styles.inputContainer}>
               <div className={styles.subtitleContainer}>
@@ -130,12 +120,12 @@ const Login: NextPage = () => {
               />
             </div>
           </div>
-          <div className={styles.loginButtonContainer}>
-            <div className={styles.loginBtn} onClick={handleSignInClick}>
-              Sign In
+          <div className={styles.logInButtonContainer}>
+            <div className={styles.logInBtn} onClick={handleLogInClick}>
+              Log In
             </div>
             <Link href="/register">
-              <div className={styles.signupBtn}>Join our Community</div>
+              <div className={styles.signUpBtn}>Join our Community</div>
             </Link>
             <div className={styles.logoutBtn}>Forgot your password?</div>
           </div>
