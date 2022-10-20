@@ -2,16 +2,16 @@ import { ParsedUrlQuery } from "querystring";
 
 import type { NextPage } from "next";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { UserInfo } from "opm-models";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { UserInfo } from "opm-models";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
+import styles from "../styles/Profile.module.scss";
 import MyRequestMenu from "../components/profile/MyRequestMenu";
 import ProfileMenu from "../components/profile/ProfileMenu";
 import WorksMenu from "../components/profile/WorksMenu";
-import styles from "../styles/Profile.module.scss";
 import { logout } from "../store/slice/user";
 import { RootState } from "../store";
 import {
@@ -47,7 +47,7 @@ const Profile: NextPage = () => {
   const user = useSelector<RootState, UserInfo>((state) => state.user);
 
   if (!user.uId) {
-    router.push("/login");
+    router.push("/logIn");
     return <Loading />;
   }
 

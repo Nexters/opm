@@ -8,10 +8,10 @@ const HomeBody: FunctionComponent = () => {
       <div className={styles.introduction}>
         <h1 className={styles.mainText}>English proofreading for</h1>
         <h1 className={styles.mainText}>
-          Writers, Students, Business and You.
+          Writers, Students, Business, and You.
         </h1>
         <h3 className={styles.description}>
-          Editing services for everyone who need revision for language errors.
+          Editing services for everyone who needs revision for language errors.
         </h3>
       </div>
       <video

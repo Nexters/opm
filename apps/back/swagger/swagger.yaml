@@ -12,7 +12,7 @@ paths:
       consumes:
         - application/json
 
-  /user/signup:
+  /user/signUp:
     post:
       summary: "새로운 유저 회원가입"
       tags:
@@ -33,7 +33,7 @@ paths:
               uLastName:
                 type: string
 
-  /user/login:
+  /user/logIn:
     post:
       summary: "유저 로그인"
       tags:

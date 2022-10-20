@@ -29,7 +29,7 @@ const ContentRequest: NextPage = () => {
   const [content, setContent] = useState("");
 
   if (!user.uId) {
-    router.push("/login");
+    router.push("/logIn");
     return <Loading />;
   }
 
@@ -82,7 +82,7 @@ const ContentRequest: NextPage = () => {
               <InfoHeader />
               <div>
                 <div className={styles.subtitleContainer}>
-                  <div className={styles.subTitle}>Title about request.</div>
+                  <div className={styles.subTitle}>Category about request.</div>
                   <div className={styles.guideText}>{title.length}/20</div>
                 </div>
                 <input
@@ -91,12 +91,14 @@ const ContentRequest: NextPage = () => {
                   onChange={handleTitleChange}
                   className={styles.inputTitle}
                   maxLength={20}
-                  placeholder="Placeholder"
+                  placeholder="To be changed Dropbox"
                 />
               </div>
               <div>
                 <div className={styles.subtitleContainer}>
-                  <div className={styles.subTitle}>Explanatory note.</div>
+                  <div className={styles.subTitle}>
+                    Additional Requests (Optional)
+                  </div>
                   <div className={styles.guideText}>
                     {description.length}/140
                   </div>

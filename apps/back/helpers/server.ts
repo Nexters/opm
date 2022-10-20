@@ -27,7 +27,7 @@ const getServerOptions = () => {
   return serverOptions;
 };
 
-const setupMiddleware = (app: Express) => {
+const setUpMiddleware = (app: Express) => {
   app.use(cors());
   app.use(bodyParser.json());
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
@@ -36,7 +36,7 @@ const setupMiddleware = (app: Express) => {
 
 export const getServer = () => {
   const app = express();
-  setupMiddleware(app);
+  setUpMiddleware(app);
 
   const serverOptions = getServerOptions();
   const serverScheme = isLiveServer ? https : http;
