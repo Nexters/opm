@@ -12,12 +12,25 @@ export type SocketKey =
   | "DISCONNECT"
   | "ERROR";
 
-export type UserApiKey = "all" | "signup" | "signIn";
+export type UserApiKey =
+  | "all"
+  | "signUp"
+  | "signUpEditor"
+  | "logIn"
+  | "checkedEmail"
+  | "setUpEditorProfile"
+  | "setUpAssignments"
+  | "setUpCertificates";
 
 export enum UserApiEndPoint {
   all = "/user/all",
-  signup = "/user/signup",
-  signIn = "/user/login",
+  signUp = "/user/signUp",
+  signUpEditor = "/user/signUpEdiitor",
+  logIn = "/user/logIn",
+  checkedEmail = "/user/checkedEmail",
+  setUpEditorProfile = "/user/setUpEditorProfile",
+  setUpAssignments = "/user/setUpAssignments",
+  setUpCertificates = "/user/setUpCertificates",
 }
 
 export type BoardApiKey =

@@ -34,4 +34,17 @@ export const Api = {
       },
     );
   },
+  filePost: async (path: string, body: any) => {
+    return fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? Url.REAL_SERVER
+          : Url.LOCAL_SERVER
+      }${path}`,
+      {
+        method: "POST",
+        body,
+      },
+    );
+  },
 };

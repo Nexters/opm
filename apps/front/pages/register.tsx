@@ -1,14 +1,14 @@
 import type { NextPage } from "next";
 import React, { useState } from "react";
 import Head from "next/head";
-import { Url, UserApiPath } from "opm-models";
+import Link from "next/link";
+import { UserApiPath, UserSignUpData } from "opm-models";
 import { useRouter } from "next/router";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
 import { Api } from "../helpers/api";
-import AdImage from "../components/common/AdImage";
 
 const Register: NextPage = () => {
   const router = useRouter();
@@ -45,15 +45,16 @@ const Register: NextPage = () => {
       return;
     }
 
-    const data = {
-      firstName,
-      lastName,
-      email,
-      password,
+    const data: UserSignUpData = {
+      uFirstName: firstName,
+      uLastName: lastName,
+      uEmail: email,
+      uPassword: password,
+      uEditorType: false,
     };
-    const res = await Api.post(UserApiPath.signup, data);
+    const res = await Api.post(UserApiPath.signUp, data);
     if (res.ok) {
-      router.push("/login");
+      router.push("/logIn");
       return;
     }
     alert("Error!");
@@ -68,14 +69,8 @@ const Register: NextPage = () => {
       </Head>
       <Navigation />
       <div className={styles.mainContainer}>
-        <AdImage
-          src="/ad/newjeans.jpeg"
-          containerClassName={styles.adImageContainer}
-          imageClassName={styles.img2}
-        />
-
         <div className={styles.rightContainer}>
-          <div className={styles.title}>Join the Community.</div>
+          <div className={styles.title}>Sign Up</div>
           <div className={styles.description}>
             Let&apos;s get you all set up so you can vertify your personal
             account.
@@ -105,7 +100,7 @@ const Register: NextPage = () => {
               <div className={styles.subtitleContainer}>
                 <div className={styles.subTitle}>E-mail</div>
                 <div className={styles.guideText}>
-                  this address will be your ID
+                  This address will be your ID.
                 </div>
               </div>
               <input
@@ -120,7 +115,7 @@ const Register: NextPage = () => {
               <div className={styles.subtitleContainer}>
                 <div className={styles.subTitle}>Password</div>
                 <div className={styles.guideText}>
-                  should be longer than 8 words
+                  It should be longer than 8 words.
                 </div>
               </div>
               <input
@@ -132,7 +127,7 @@ const Register: NextPage = () => {
               />
             </div>
           </div>
-          <div className={styles.signupContainer}>
+          <div className={styles.signUpContainer}>
             <label className={styles.agree}>
               <input
                 type="checkbox"
@@ -140,12 +135,16 @@ const Register: NextPage = () => {
                 className={styles.checkbox}
                 onChange={handleAgreementChange}
               />
-              I agree to all the Term, Privacy Policy and Fees.
+              I agree to all the terms and <br />
+              conditions of ATrans privacy policy and pricing.
             </label>
-            <div className={styles.loginBtn} onClick={handleSignUpClick}>
+            <div className={styles.logInBtn} onClick={handleSignUpClick}>
               Sign Up
             </div>
           </div>
+          <Link href="/recruiting">
+            <div className={styles.editorBtn}>Join as Editor ➜</div>
+          </Link>
         </div>
       </div>
       <Footer />

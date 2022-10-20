@@ -15,8 +15,13 @@ export const Url: Record<UrlKey, string> = {
 };
 export const UserApiPath: Record<UserApiKey, string> = {
   all: UserApiEndPoint.all,
-  signup: UserApiEndPoint.signup,
-  signIn: UserApiEndPoint.signIn,
+  signUp: UserApiEndPoint.signUp,
+  signUpEditor: UserApiEndPoint.signUpEditor,
+  logIn: UserApiEndPoint.logIn,
+  checkedEmail: UserApiEndPoint.checkedEmail,
+  setUpEditorProfile: UserApiEndPoint.setUpEditorProfile,
+  setUpAssignments: UserApiEndPoint.setUpAssignments,
+  setUpCertificates: UserApiEndPoint.setUpCertificates,
 };
 export const BoardApiPath: Record<BoardApiKey, BoardApiEndPoint> = {
   one: BoardApiEndPoint.one,

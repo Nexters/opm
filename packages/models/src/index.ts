@@ -15,9 +15,16 @@ import type {
   USER_STATUS,
   UserInfo,
   UserNotificationList,
+  UserLogInData,
+  UserSignUpData,
+  EditorProfile,
+  EditorCareers,
+  EditorCertificate,
+  Assignments,
 } from "./models/user";
 import { StatusCode } from "./models/status";
 import { BoardNotiText } from "./models/noti";
+import { CorrectAssignments, ParaphraseAssignments } from "./models/assignment";
 
 export {
   SocketPath,
@@ -30,6 +37,12 @@ export {
   USER_STATUS,
   UserInfo,
   UserNotificationList,
+  UserLogInData,
+  UserSignUpData,
+  EditorProfile,
+  EditorCareers,
+  EditorCertificate,
+  Assignments,
   MessageSocket,
   BoardSocket,
   BoardEditSocket,
@@ -42,4 +55,6 @@ export {
   StatusCode,
   BoardNotiKey,
   BoardNotiText,
+  CorrectAssignments,
+  ParaphraseAssignments,
 };
