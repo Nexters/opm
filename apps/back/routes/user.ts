@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 
-import { Request } from "express";
+import { Request, Response } from "express";
 import { StatusCode } from "opm-models";
 
 import User from "../models/user.model";
@@ -9,27 +9,23 @@ import User from "../models/user.model";
 const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
 
-const showAllUser = async (req, res) => {
-  const allUser = await User.find();
-  return res.json(allUser);
-};
-
-const signUpUser = async (req: Request, res) => {
+const signUpUser = async (req: Request, res: Response) => {
   console.info("Requests:", req.body);
 
-  const { email, password, firstName, lastName } = req.body;
+  const { uFirstName, uLastName, uEmail, uPassword, uEditorType } = req.body;
   const newUser = new User({
     uId: randomUUID(),
-    uEmail: email,
-    uPassword: password,
-    uFirstName: firstName,
-    uLastName: lastName,
+    uEmail: uEmail,
+    uPassword: uPassword,
+    uFirstName: uFirstName,
+    uLastName: uLastName,
+    uEditorType: uEditorType,
   });
   // 중복 이메일 확인
-  const checkUser = await User.find({ uEmail: email });
+  const checkUser = await User.find({ uEmail: uEmail });
   if (checkUser.length) {
     console.info("이미 존재하는 사용자입니다.");
-    return res.send(ALREADY_ID);
+    return res.status(StatusCode.CONFLICT).send(ALREADY_ID);
   } else {
     console.info("존재하지 않는 사용자입니다.");
     console.info("회원등록 정보:", newUser);
@@ -38,10 +34,48 @@ const signUpUser = async (req: Request, res) => {
   }
 };
 
-const signIn = async (req: Request, res) => {
+const signUpEditor = async (req: Request, res: Response) => {
+  const {
+    uFirstName,
+    uLastName,
+    uEmail,
+    uPassword,
+    uEditorType,
+    uEmailCheck,
+    uProfileInfoList,
+    uCertificateList,
+    uFiles,
+  } = req.body;
+
+  const newUser = new User({
+    uId: randomUUID(),
+    uEmail: uEmail,
+    uPassword: uPassword,
+    uFirstName: uFirstName,
+    uLastName: uLastName,
+    uEditorType: uEditorType,
+    uEmailCheck: uEmailCheck,
+    uProfileInfoList: uProfileInfoList,
+    uCertificateList: uCertificateList,
+    uFiles: uFiles,
+  });
+  // 중복 이메일 확인
+  const checkUser = await User.find({ uEmail: uEmail });
+  if (checkUser.length) {
+    console.info("이미 존재하는 사용자입니다.");
+    return res.status(StatusCode.CONFLICT).send(ALREADY_ID);
+  } else {
+    console.info("존재하지 않는 사용자입니다.");
+    console.info("회원등록 정보:", newUser);
+    await newUser.save();
+    return res.send(CREATED_ID);
+  }
+};
+
+const logIn = async (req: Request, res: Response) => {
   const user = await User.findOne({
-    uEmail: req.body.email,
-    uPassword: req.body.password,
+    uEmail: req.body.uEmail,
+    uPassword: req.body.uPassword,
   });
 
   if (!user) {
@@ -50,10 +84,83 @@ const signIn = async (req: Request, res) => {
   return res.status(StatusCode.OK).json(user);
 };
 
+const checkedEmail = async (req: Request, res: Response) => {
+  const foundUser = await User.findOne({ uEmail: req.body.uEmail });
+  foundUser.uEmailCheck = true;
+
+  try {
+    const data = await foundUser.save();
+    return res.status(StatusCode.OK).send({ data });
+  } catch (error) {
+    console.info(error);
+  }
+};
+
+const setUpEditorProfile = async (req: Request, res: Response) => {
+  try {
+    const email = JSON.parse(req.body.uEmail);
+    const profile = JSON.parse(req.body.profile);
+
+    const foundUser = await User.findOne({ uEmail: email });
+    foundUser.uProfileInfo = profile;
+    foundUser.uFiles = {
+      certificatePaper: JSON.stringify(req.file),
+    };
+
+    const data = await foundUser.save();
+    return res.status(StatusCode.OK).send({ data });
+  } catch (error) {
+    console.info(error);
+  }
+};
+
+const setUpAssignments = async (req: Request, res: Response) => {
+  const foundUser = await User.findOne({ uEmail: req.body.uEmail });
+  foundUser.uCertificate = {
+    biography: "",
+    resume: "",
+    correctAssignments: req.body.correctData,
+    paraphraseAssignments: req.body.paraphraseData,
+  };
+
+  try {
+    const data = await foundUser.save();
+    return res.status(StatusCode.OK).send({ data });
+  } catch (error) {
+    console.info(error);
+  }
+};
+
+const setUpCertificates = async (req: Request, res: Response) => {
+  try {
+    const email = JSON.parse(req.body.uEmail);
+    const biography = req.body.biography;
+    const correct = JSON.parse(req.body.correct);
+    const paraphrase = JSON.parse(req.body.paraphrase);
+
+    const foundUser = await User.findOne({ uEmail: email });
+    foundUser.uCertificate = {
+      biography: biography,
+      resume: JSON.stringify(req.file),
+      correctAssignments: correct,
+      paraphraseAssignments: paraphrase,
+    };
+
+    const data = await foundUser.save();
+    return res.status(StatusCode.OK).send({ data });
+  } catch (error) {
+    console.info(error);
+  }
+};
+
 const user = {
-  showAllUser,
   signUpUser,
-  signIn,
+  signUpEditor,
+  logIn,
+  checkedEmail,
+  setUpEditorProfile,
+  setUpAssignments,
+  setUpCertificates,
 };
 
 export default user;
