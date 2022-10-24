@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema<UserInfo>({
       notiBody: "",
     },
   ],
-  uEditorType: "Boolean",
+  uEditorType: "String",
   uEmailCheck: "Boolean",
   uProfileInfo: {},
   uCertificate: {},

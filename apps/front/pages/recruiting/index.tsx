@@ -29,12 +29,11 @@ const Recruiting: NextPage = () => {
 
   const user = useSelector<RootState, UserInfo>((state) => state.user);
 
-  if (user.uId && user.uEditorType) {
+  if (user.uId && user.uEditorType === "CLIENT") {
+    logout();
+  } else if (user.uEditorType === "BEGINNER") {
     router.push("/recruiting/verification");
     return <Loading />;
-  }
-  if (user.uId && !user.uEditorType) {
-    logout();
   }
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -83,7 +82,7 @@ const Recruiting: NextPage = () => {
       uLastName: lastName,
       uEmail: email,
       uPassword: password,
-      uEditorType: true,
+      uEditorType: "BEGINNER",
       uEmailCheck: false,
       uProfileInfo: undefined,
       uCertificate: undefined,

@@ -49,6 +49,13 @@ const Profile: NextPage = () => {
     router.push("/logIn");
     return <Loading />;
   }
+  if (user.uEditorType === "BEGINNER") {
+    router.push("/recruiting/verification");
+    return <Loading />;
+  } else if (user.uEditorType === "WAITING") {
+    router.push("/recruiting/submitted");
+    return <Loading />;
+  }
 
   const handleLogoutClick = () => {
     dispatch(logout());

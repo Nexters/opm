@@ -1,6 +1,7 @@
 import { CorrectQuestion, ParaphraseQuestion } from "./assignment";
 
 export type USER_STATUS = "ONLINE" | "OFFLINE";
+export type USER_TYPE = "CLIENT" | "BEGINNER" | "WAITING" | "EDITOR";
 export interface UserInfo {
   uId: string;
   uCreateDate: string;
@@ -11,7 +12,7 @@ export interface UserInfo {
   uPassword: string;
   uStatus: USER_STATUS;
   uNotiList: UserNotificationList[];
-  uEditorType: boolean;
+  uEditorType: USER_TYPE;
   uEmailCheck: boolean;
   uProfileInfo: EditorProfile;
   uCertificate: EditorCertificate;
@@ -75,7 +76,7 @@ export interface UserSignUpData {
   uLastName: string;
   uEmail: string;
   uPassword: string;
-  uEditorType: boolean;
+  uEditorType: USER_TYPE;
   uEmailCheck?: boolean;
   uProfileInfo?: EditorProfile;
   uCertificate?: EditorCertificate;

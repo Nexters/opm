@@ -50,7 +50,7 @@ const Register: NextPage = () => {
       uLastName: lastName,
       uEmail: email,
       uPassword: password,
-      uEditorType: false,
+      uEditorType: "CLIENT",
     };
     const res = await Api.post(UserApiPath.signUp, data);
     if (res.ok) {
