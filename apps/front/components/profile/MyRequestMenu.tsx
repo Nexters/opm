@@ -37,7 +37,7 @@ const MyRequestMenu: NextPage = () => {
   if (isLoading) {
     return (
       <>
-        <div className={styles.title}>Posted by you.</div>
+        <div className={styles.title}>Your Posts.</div>
         <div className={styles.editingListContainer}>
           <Loading />
         </div>
@@ -51,7 +51,7 @@ const MyRequestMenu: NextPage = () => {
 
   return (
     <>
-      <div className={styles.title}>Posted by you.</div>
+      <div className={styles.title}>Your Posts.</div>
       {requestList && requestList.length === 0 ? (
         <div className={styles.nullText}>You never posted a request.</div>
       ) : (

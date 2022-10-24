@@ -13,6 +13,7 @@ import InfoHeader from "../components/contentRequest/titlePhase/InfoHeader";
 import Button from "../components/contentRequest/Button";
 import { Api } from "../helpers/api";
 import Loading from "../components/common/Loading";
+import DisableButton from "../components/contentRequest/DisableButton";
 
 enum PagePhase {
   title = "title",
@@ -81,7 +82,7 @@ const ContentRequest: NextPage = () => {
               <InfoHeader />
               <div>
                 <div className={styles.subtitleContainer}>
-                  <div className={styles.subTitle}>Category about request.</div>
+                  <div className={styles.subTitle}>Category of request.</div>
                   <div className={styles.guideText}>{title.length}/20</div>
                 </div>
                 <input
@@ -96,7 +97,7 @@ const ContentRequest: NextPage = () => {
               <div>
                 <div className={styles.subtitleContainer}>
                   <div className={styles.subTitle}>
-                    Additional Requests (Optional)
+                    Additional Request (Optional)
                   </div>
                   <div className={styles.guideText}>
                     {description.length}/140
@@ -111,7 +112,14 @@ const ContentRequest: NextPage = () => {
                 />
               </div>
               <div />
-              <Button label={"Next"} onClick={handleNextClick} />
+              {title ? (
+                <Button label={"Next"} onClick={handleNextClick} />
+              ) : (
+                <DisableButton
+                  label={"Next"}
+                  onClick={() => alert("Please enter title")}
+                ></DisableButton>
+              )}
             </>
           ) : (
             <>

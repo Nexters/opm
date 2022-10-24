@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from "querystring";
 
 import type { NextPage } from "next";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useState } from "react";
 import { UserInfo } from "opm-models";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";

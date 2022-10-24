@@ -5,9 +5,9 @@ import styles from "../../../styles/Board.module.scss";
 const InfoHeader: FunctionComponent = () => {
   return (
     <div>
-      <div className={styles.title}>Request description.</div>
+      <div className={styles.title}>Editing Request.</div>
       <div className={styles.description}>
-        Write down explains about your proofreading commision.
+        Submit your request and an additional message for editing/proofreading.
       </div>
     </div>
   );

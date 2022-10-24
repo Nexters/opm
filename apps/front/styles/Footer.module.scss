@@ -4,24 +4,33 @@
   box-sizing: border-box;
   height: 80px;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   padding: 0px 180px 0px 180px;
   background-color: $gray800;
   align-content: center;
   flex-wrap: nowrap;
   gap: 0;
+  @extend .text
 }
 
 .text {
   flex-shrink: 0;
-  width: auto; /* 254px */
-  height: auto; /* 20px */
   white-space: pre;
   overflow: visible;
   position: relative;
   line-height: 1.2;
   color: $gray600;
   font-size: 16px;
+}
+
+.footerMenu {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.conditionsMenu {
+  display: flex;
+  gap: 20px;
 }
