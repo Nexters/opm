@@ -12,11 +12,9 @@ import { RootState } from "../../store";
 import BoardButtonContainer from "../../components/board/BoardButtonContainer";
 import { Api } from "../../helpers/api";
 import BackButton from "../../components/common/BackButton";
-import AdImage from "../../components/common/AdImage";
 import BoardTextArea from "../../components/board/BoardTextArea";
 import { clearBoard } from "../../store/slice/board";
 import { setBoard } from "../../store/slice/board";
-import Loading from "../../components/common/Loading";
 
 export enum BoardPhase {
   view = "view",
@@ -151,7 +149,7 @@ const Board: NextPage = () => {
           />
         </div>
         <div className={styles.chatContainer}>
-          {isOpenChat ? <ChatView /> : <AdImage src={"/ad/newjeans.jpeg"} />}
+          {isOpenChat ? <ChatView /> : <div></div>}
         </div>
       </main>
     </>

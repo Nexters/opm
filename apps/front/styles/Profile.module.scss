@@ -4,9 +4,7 @@
 .container {
   display: flex;
   flex-direction: row;
-  margin: 200px 180px 100px 200px;
-  padding: 0px;
-  height: 130vh;
+  padding: 200px 180px 200px 200px;
 }
 
 .menuContainer {
@@ -28,7 +26,7 @@
   height: 460px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   padding: 32px;
   background-color: $white;

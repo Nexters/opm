@@ -12,7 +12,6 @@ import BackButton from "../components/common/BackButton";
 import InfoHeader from "../components/contentRequest/titlePhase/InfoHeader";
 import Button from "../components/contentRequest/Button";
 import { Api } from "../helpers/api";
-import AdImage from "../components/common/AdImage";
 import Loading from "../components/common/Loading";
 
 enum PagePhase {
@@ -128,9 +127,6 @@ const ContentRequest: NextPage = () => {
               <Button label={"Posting"} onClick={handleSubmitClick} />
             </>
           )}
-        </div>
-        <div className={styles.adImageContainer}>
-          <AdImage src="/ad/cat2.gif" imageClassName={styles.img3} />
         </div>
       </main>
       <Footer />

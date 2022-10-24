@@ -56,14 +56,14 @@ const Navigation: NextPage<NavigationProps> = ({
             <a>
               {homeTrans ? (
                 <Image
-                  src="/svg/logo-secondary.svg"
+                  src="/svg/ATrans.svg"
                   alt="logo"
                   width="116px"
                   height="56px"
                 />
               ) : (
                 <Image
-                  src="/svg/logo-primary.svg"
+                  src="/svg/ATrans.svg"
                   alt="logo"
                   width={116}
                   height={56}
