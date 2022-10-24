@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import { UserApiPath, UserInfo, EditorProfile } from "opm-models";
 import { useRouter } from "next/router";
@@ -15,7 +15,14 @@ const SetUpProfile = () => {
   const router = useRouter();
 
   const [language, setLanguage] = useState<string>("");
-  const [timezone, setTimezone] = useState<string>("");
+  const [timezone, setTimezone] = useState<string>("(UTC-10:00) Hawaii");
+  const [timezoneState, setTimezoneState] = useState<boolean>(false);
+  const timezoneList = [
+    "(UTC-10:00) Hawaii",
+    "(UTC-08:00) Baja California",
+    "(UTC-04:00) Santiago",
+  ];
+
   const [educations, setEducations] = useState([]);
   const [education, setEducation] = useState({
     degree: "",
@@ -77,8 +84,14 @@ const SetUpProfile = () => {
   const handleLanguageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLanguage(e.currentTarget.value);
   };
-  const handleTimezoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTimezone(e.currentTarget.value);
+  const handleTimezoneChange = (
+    e: React.MouseEvent<HTMLDivElement>,
+    i: string | null,
+  ) => {
+    setTimezoneState(!timezoneState);
+    if (i) {
+      setTimezone(i);
+    }
   };
 
   const handleEducationChange = async (
@@ -160,17 +173,30 @@ const SetUpProfile = () => {
                 value={language}
                 onChange={handleLanguageChange}
                 className={styles.sign}
+                placeholder="English, British or Both"
               />
             </div>
             <div className={styles.inputContainer}>
               <div className={styles.subTitle}>Timezone</div>
-              <input
-                type="text"
-                name="timezone"
-                value={timezone}
-                onChange={handleTimezoneChange}
-                className={styles.sign}
-              />
+              <div
+                className={styles.timezoneBox}
+                onClick={(e) => handleTimezoneChange(e, "")}
+              >
+                <div className={styles.timezoneText}>{timezone}</div>
+
+                {timezoneState && (
+                  <div className={styles.timezoneDropbox}>
+                    {timezoneList.map((zone) => (
+                      <div
+                        key={zone}
+                        onClick={(e) => handleTimezoneChange(e, zone)}
+                      >
+                        {zone}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className={styles.profileContainer}>

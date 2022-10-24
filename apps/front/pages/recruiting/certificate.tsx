@@ -201,7 +201,7 @@ const Certificate = () => {
               </div>
               {correctAssignments &&
                 correctAssignments.map((assignments, i) => (
-                  <>
+                  <div key={i}>
                     <div>{assignments.question}</div>
                     <input
                       type="text"
@@ -212,7 +212,7 @@ const Certificate = () => {
                       }
                       className={styles.certificateInput}
                     />
-                  </>
+                  </div>
                 ))}
             </div>
             <div className={styles.inputContainer}>
@@ -224,7 +224,7 @@ const Certificate = () => {
               </div>
               {paraphraseAssignments &&
                 paraphraseAssignments.map((assignments, i) => (
-                  <>
+                  <div key={i}>
                     <div>{assignments.question}</div>
                     <input
                       type="text"
@@ -238,7 +238,7 @@ const Certificate = () => {
                       }
                       className={styles.certificateInput}
                     />
-                  </>
+                  </div>
                 ))}
             </div>
             <div className={styles.editorSignUpBtnContainer}>
