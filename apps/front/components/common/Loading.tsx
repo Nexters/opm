@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { FunctionComponent } from "react";
 
+import Navigation from "./Navigation";
+
 interface LoadingProps {
   width?: string;
   height?: string;
@@ -17,9 +19,22 @@ const Loading: FunctionComponent<LoadingProps> = ({
   left = "auto",
 }) => {
   return (
-    <div style={{ width, height, position, top, left }}>
-      <Image src="/loading.gif" layout="fill" alt="loading" />
-    </div>
+    <>
+      <Navigation />
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ width, height, position, top, left }}>
+          <Image src="/loading.gif" layout="fill" alt="loading" />
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -49,7 +49,7 @@ const Verification = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
-      <div className={styles.mainContainer}>
+      <div className={styles.smallContainer}>
         <div className={styles.rightContainer}>
           <div className={styles.title}>Welcome, {userFullName}!</div>
           <div className={styles.description}>

@@ -24,7 +24,7 @@ const Submitted: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
-      <div className={styles.mainContainer}>
+      <div className={styles.smallContainer}>
         <div className={styles.rightContainer}>
           <div className={styles.title}>
             Thank you for applying!, <br /> {userFullName}!

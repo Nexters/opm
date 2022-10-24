@@ -193,7 +193,7 @@ const Certificate = () => {
                   className={styles.resumeFileInput}
                 />
               </div>
-              <div className={styles.certificateSubTitle}>
+              <div>
                 <div className={styles.subTitle}>Assignments #1-3</div>
                 <div className={styles.certificateGuideTitle}>
                   Please correct the sentences below.
@@ -216,7 +216,7 @@ const Certificate = () => {
                 ))}
             </div>
             <div className={styles.inputContainer}>
-              <div className={styles.certificateSubTitle}>
+              <div>
                 <div className={styles.subTitle}>Assignments #4-6</div>
                 <div className={styles.certificateGuideTitle}>
                   Please paraphrase the sentences below.
