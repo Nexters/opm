@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema<UserInfo>({
   uLastName: "",
   uNickName: "",
   uPassword: "",
+  uPasswordSalt: "",
   uStatus: "String",
   uNotiList: [
     {

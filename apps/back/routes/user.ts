@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { randomUUID, randomBytes, pbkdf2 } from "crypto";
 
 import { Request, Response } from "express";
 import { StatusCode } from "opm-models";
@@ -10,28 +10,40 @@ const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
 
 const signUpUser = async (req: Request, res: Response) => {
-  console.info("Requests:", req.body);
-
   const { uFirstName, uLastName, uEmail, uPassword, uEditorType } = req.body;
-  const newUser = new User({
-    uId: randomUUID(),
-    uEmail: uEmail,
-    uPassword: uPassword,
-    uFirstName: uFirstName,
-    uLastName: uLastName,
-    uEditorType: uEditorType,
+
+  randomBytes(64, (_, buf) => {
+    pbkdf2(
+      uPassword,
+      buf.toString("base64"),
+      94751,
+      64,
+      "sha512",
+      async (_, key) => {
+        const newUser = new User({
+          uId: randomUUID(),
+          uEmail: uEmail,
+          uPassword: key.toString("base64"),
+          uPasswordSalt: buf.toString("base64"),
+          uFirstName: uFirstName,
+          uLastName: uLastName,
+          uEditorType: uEditorType,
+        });
+        console.info("회원등록 정보:", newUser);
+
+        const checkUser = await User.find({ uEmail: uEmail });
+        if (checkUser.length) {
+          console.info("이미 존재하는 사용자입니다.");
+          return res.status(StatusCode.CONFLICT).send(ALREADY_ID);
+        } else {
+          console.info("존재하지 않는 사용자입니다.");
+          console.info("회원등록 정보:", newUser);
+          await newUser.save();
+          return res.send(CREATED_ID);
+        }
+      },
+    );
   });
-  // 중복 이메일 확인
-  const checkUser = await User.find({ uEmail: uEmail });
-  if (checkUser.length) {
-    console.info("이미 존재하는 사용자입니다.");
-    return res.status(StatusCode.CONFLICT).send(ALREADY_ID);
-  } else {
-    console.info("존재하지 않는 사용자입니다.");
-    console.info("회원등록 정보:", newUser);
-    await newUser.save();
-    return res.send(CREATED_ID);
-  }
 };
 
 const signUpEditor = async (req: Request, res: Response) => {
@@ -47,41 +59,57 @@ const signUpEditor = async (req: Request, res: Response) => {
     uFiles,
   } = req.body;
 
-  const newUser = new User({
-    uId: randomUUID(),
-    uEmail: uEmail,
-    uPassword: uPassword,
-    uFirstName: uFirstName,
-    uLastName: uLastName,
-    uEditorType: uEditorType,
-    uEmailCheck: uEmailCheck,
-    uProfileInfoList: uProfileInfoList,
-    uCertificateList: uCertificateList,
-    uFiles: uFiles,
+  randomBytes(64, (_, buf) => {
+    pbkdf2(
+      uPassword,
+      buf.toString("base64"),
+      94751,
+      64,
+      "sha512",
+      async (_, key) => {
+        const newUser = new User({
+          uId: randomUUID(),
+          uEmail: uEmail,
+          uPassword: key.toString("base64"),
+          uPasswordSalt: buf.toString("base64"),
+          uFirstName: uFirstName,
+          uLastName: uLastName,
+          uEditorType: uEditorType,
+          uEmailCheck: uEmailCheck,
+          uProfileInfoList: uProfileInfoList,
+          uCertificateList: uCertificateList,
+          uFiles: uFiles,
+        });
+        console.info("회원등록 정보:", newUser);
+
+        const checkUser = await User.find({ uEmail: uEmail });
+        if (checkUser.length) {
+          console.info("이미 존재하는 사용자입니다.");
+          return res.status(StatusCode.CONFLICT).send(ALREADY_ID);
+        } else {
+          console.info("존재하지 않는 사용자입니다.");
+          console.info("회원등록 정보:", newUser);
+          await newUser.save();
+          return res.send(CREATED_ID);
+        }
+      },
+    );
   });
-  // 중복 이메일 확인
-  const checkUser = await User.find({ uEmail: uEmail });
-  if (checkUser.length) {
-    console.info("이미 존재하는 사용자입니다.");
-    return res.status(StatusCode.CONFLICT).send(ALREADY_ID);
-  } else {
-    console.info("존재하지 않는 사용자입니다.");
-    console.info("회원등록 정보:", newUser);
-    await newUser.save();
-    return res.send(CREATED_ID);
-  }
 };
 
 const logIn = async (req: Request, res: Response) => {
-  const user = await User.findOne({
-    uEmail: req.body.uEmail,
-    uPassword: req.body.uPassword,
-  });
+  const { uEmail, uPassword } = req.body;
+  const user = await User.findOne({ uEmail: uEmail });
 
   if (!user) {
     return res.status(StatusCode.BAD_REQUEST).send("잘못된 인풋입니다.");
   }
-  return res.status(StatusCode.OK).json(user);
+
+  pbkdf2(uPassword, user.uPasswordSalt, 94751, 64, "sha512", (_, key) => {
+    if (user.uPassword === key.toString("base64")) {
+      return res.status(StatusCode.OK).json(user);
+    }
+  });
 };
 
 const checkedEmail = async (req: Request, res: Response) => {
@@ -139,6 +167,7 @@ const setUpCertificates = async (req: Request, res: Response) => {
     const paraphrase = JSON.parse(req.body.paraphrase);
 
     const foundUser = await User.findOne({ uEmail: email });
+    foundUser.uEditorType = "WAITING";
     foundUser.uCertificate = {
       biography: biography,
       resume: JSON.stringify(req.file),

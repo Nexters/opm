@@ -10,6 +10,7 @@ export interface UserInfo {
   uLastName: string;
   uNickName: string;
   uPassword: string;
+  uPasswordSalt: string;
   uStatus: USER_STATUS;
   uNotiList: UserNotificationList[];
   uEditorType: USER_TYPE;
