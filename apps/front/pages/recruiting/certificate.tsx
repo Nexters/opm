@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import {
@@ -36,6 +35,20 @@ const Certificate = () => {
   const [paraphraseAssignments, setParaphraseAssignments] = useState<
     Assignments[]
   >(user.uCertificate?.paraphraseAssignments || null);
+
+  const [activeBtn, setActiveBtn] = useState<Boolean>(false);
+
+  // const getActiveState = useCallback(async () => {
+  //   if (checkInputItems()) {
+  //     setActiveBtn(true);
+  //   } else {
+  //     setActiveBtn(false);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [formData]);
+  // useEffect(() => {
+  //   getActiveState();
+  // }, [getActiveState]);
 
   const makeFirstAssignments = async () => {
     const correctPickList = pickAssignment(CorrectAssignments);
@@ -93,7 +106,7 @@ const Certificate = () => {
     router.push("/logIn");
     return;
   }
-  if (user.uCertificate?.resume) {
+  if (user.uCertificate?.resume && user.uEditorType === "BEGINNER") {
     router.push("/recruiting/submitted");
     return <Loading />;
   }
@@ -109,10 +122,11 @@ const Certificate = () => {
     if (!e.currentTarget.files) return;
     formData.append("file", e.currentTarget.files[0]);
     setFormData(formData);
+    setActiveBtn(true);
   };
 
   const handleCorrectChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLTextAreaElement>,
     number: number,
   ) => {
     const copiedList = [...correctAssignments];
@@ -125,7 +139,7 @@ const Certificate = () => {
   };
 
   const handleParaphraseChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLTextAreaElement>,
     number: number,
   ) => {
     const copiedList = [...paraphraseAssignments];
@@ -149,7 +163,10 @@ const Certificate = () => {
 
     const res = await Api.filePost(UserApiPath.setUpCertificates, formData);
     if (res.ok) {
-      router.push("/recruiting/submitted");
+      router.push({
+        pathname: "/recruiting/submitted",
+        query: { name: `${user.uFirstName} ${user.uLastName}` },
+      });
       return;
     }
   };
@@ -171,12 +188,11 @@ const Certificate = () => {
               <div className={styles.subTitle}>Biography</div>
               <textarea
                 className={styles.biographyInput}
-                value={
-                  biography || "Briefly introduce yourself as potential editor."
-                }
+                value={biography}
                 maxLength={600}
                 onChange={handleBiographyChange}
-              ></textarea>
+                placeholder="Briefly introduce yourself as potential editor."
+              />
               <div className={styles.biographyLength}>
                 {biography.length} / 600
               </div>
@@ -203,8 +219,7 @@ const Certificate = () => {
                 correctAssignments.map((assignments, i) => (
                   <div key={i}>
                     <div>{assignments.question}</div>
-                    <input
-                      type="text"
+                    <textarea
                       name="correctAssignment"
                       value={correctAssignments[i].answer}
                       onChange={(e) =>
@@ -226,8 +241,7 @@ const Certificate = () => {
                 paraphraseAssignments.map((assignments, i) => (
                   <div key={i}>
                     <div>{assignments.question}</div>
-                    <input
-                      type="text"
+                    <textarea
                       name="paraphraseAssignment"
                       value={paraphraseAssignments[i].answer}
                       onChange={(e) =>
@@ -242,7 +256,10 @@ const Certificate = () => {
                 ))}
             </div>
             <div className={styles.editorSignUpBtnContainer}>
-              <div className={styles.logInBtn} onClick={handleSubmitBtnClick}>
+              <div
+                className={activeBtn ? styles.logInBtn : styles.disableLoginBtn}
+                onClick={handleSubmitBtnClick}
+              >
                 Submit
               </div>
             </div>

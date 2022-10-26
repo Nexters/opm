@@ -15,15 +15,40 @@ const SetUpProfile = () => {
   const router = useRouter();
 
   const [language, setLanguage] = useState<string>("");
-  const [timezone, setTimezone] = useState<string>("(UTC-10:00) Hawaii");
-  const [timezoneState, setTimezoneState] = useState<boolean>(false);
+  const [languageState, setLanguageState] = useState<boolean>(false);
+  const languageList = ["American", "British", "Both"];
+
+  const [timezone, setTimezone] = useState<string>("");
   const timezoneList = [
-    "(UTC-10:00) Hawaii",
-    "(UTC-08:00) Baja California",
-    "(UTC-04:00) Santiago",
+    "(UTC+00:00) Africa/Abidjan",
+    "(UTC+01:00) Africa/Algiers",
+    "(UTC+00:00) Africa/Bissau",
+    "(UTC+02:00) Africa/Cairo",
+    "(UTC+01:00) Africa/Casablanca",
+    "(UTC+01:00) Africa/El_Aaiun",
+    "(UTC+02:00) Africa/Johannesburg",
+    "(UTC+02:00) Africa/Juba",
+    "(UTC+02:00) Africa/Khartoum",
+    "(UTC+01:00) Africa/Lagos",
+    "(UTC+02:00) Africa/Maputo",
+    "(UTC+00:00) Africa/Monrovia",
+    "(UTC+03:00) Africa/Nairobi",
+    "(UTC+01:00) Africa/Ndjamena",
+    "(UTC+00:00) Africa/Sao_Tome",
+    "(UTC+02:00) Africa/Tripoli",
+    "(UTC+01:00) Africa/Tunis",
+    "(UTC+02:00) Africa/Windhoek",
+    "",
+    "(UTC+01:00) Africa/El_Aaiun",
+    "(UTC+02:00) Africa/Johannesburg",
+    "(UTC+02:00) Africa/Juba",
+    "(UTC+02:00) Africa/Khartoum",
+    "(UTC+01:00) Africa/Lagos",
+    "(UTC+02:00) Africa/Maputo",
+    "(UTC+00:00) Africa/Monrovia",
+    "(UTC+03:00) Africa/Nairobi",
   ];
 
-  const [educations, setEducations] = useState([]);
   const [education, setEducation] = useState({
     degree: "",
     nameOfSchool: "",
@@ -31,15 +56,29 @@ const SetUpProfile = () => {
     attendedStartDate: "",
     attendedEndDate: "",
   });
-  const [formData, setFormData] = useState(new FormData());
+  const [degreeState, setDegreeState] = useState<boolean>(false);
+  const degreeList = [
+    "Associate’s Degree",
+    "Bachelor’s Degree",
+    "Master’s Degree",
+    "Master of Business Administration (M.B.A.)",
+    "Juris Doctor (J.D.)",
+    "Doctor of Medicine (M.D.)",
+    "Doctor of Philosophy (Ph.D.)",
+    "Engineer’s Degree",
+  ];
 
-  const [careers, setCareers] = useState([]);
+  const [formData, setFormData] = useState(new FormData());
+  const [fileState, setFileState] = useState<boolean>(false);
+  const [educations, setEducations] = useState([]);
+
   const [career, setCareer] = useState({
     company: "",
     position: "",
     attendedStartDate: "",
     attendedEndDate: "",
   });
+  const [careers, setCareers] = useState([]);
   const [activeBtn, setActiveBtn] = useState<Boolean>(false);
 
   const checkInputItems = () => {
@@ -50,7 +89,8 @@ const SetUpProfile = () => {
       !education.nameOfSchool ||
       !education.major ||
       !education.attendedStartDate ||
-      !education.attendedEndDate
+      !education.attendedEndDate ||
+      !fileState
     ) {
       return false;
     }
@@ -81,18 +121,24 @@ const SetUpProfile = () => {
     return <Loading />;
   }
 
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLanguage(e.currentTarget.value);
-  };
-  const handleTimezoneChange = (
-    e: React.MouseEvent<HTMLDivElement>,
-    i: string | null,
-  ) => {
-    setTimezoneState(!timezoneState);
+  const handleLanguageChange = (i: string | null) => {
+    setLanguageState(!languageState);
     if (i) {
-      setTimezone(i);
+      setLanguage(i);
     }
   };
+  const handleTimezoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTimezone(e.currentTarget.value);
+  };
+  // const handleTimezoneChange = (
+  //   e: React.MouseEvent<HTMLDivElement>,
+  //   i: string | null,
+  // ) => {
+  //   setTimezoneState(!timezoneState);
+  //   if (i) {
+  //     setTimezone(i);
+  //   }
+  // };
 
   const handleEducationChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -104,6 +150,21 @@ const SetUpProfile = () => {
     if (e.currentTarget.name === "file" && e.currentTarget.files) {
       formData.append("file", e.currentTarget.files[0]);
       setFormData(formData);
+      setFileState(true);
+    }
+  };
+
+  const handleDegreeChange = async (
+    e: React.MouseEvent<HTMLDivElement>,
+    i: string | null,
+  ) => {
+    setDegreeState(!degreeState);
+    if (i) {
+      setEducation((prev) => {
+        let newObj = { ...prev };
+        newObj.degree = i;
+        return newObj;
+      });
     }
   };
 
@@ -167,36 +228,36 @@ const SetUpProfile = () => {
           <div className={styles.registerContainer}>
             <div className={styles.inputContainer}>
               <div className={styles.subTitle}>Language</div>
-              <input
-                type="text"
-                name="language"
-                value={language}
-                onChange={handleLanguageChange}
-                className={styles.sign}
-                placeholder="English, British or Both"
-              />
-            </div>
-            <div className={styles.inputContainer}>
-              <div className={styles.subTitle}>Timezone</div>
               <div
                 className={styles.timezoneBox}
-                onClick={(e) => handleTimezoneChange(e, "")}
+                onClick={() => handleLanguageChange("")}
               >
-                <div className={styles.timezoneText}>{timezone}</div>
+                <div className={styles.timezoneText}>{language}</div>
 
-                {timezoneState && (
-                  <div className={styles.timezoneDropbox}>
-                    {timezoneList.map((zone) => (
+                {languageState && (
+                  <div className={styles.languageDropbox}>
+                    {languageList.map((lang) => (
                       <div
-                        key={zone}
-                        onClick={(e) => handleTimezoneChange(e, zone)}
+                        key={lang}
+                        onClick={() => handleLanguageChange(lang)}
                       >
-                        {zone}
+                        {lang}
                       </div>
                     ))}
                   </div>
                 )}
               </div>
+            </div>
+            <div className={styles.inputContainer}>
+              <div className={styles.subTitle}>Working Hours</div>
+              <input
+                type="text"
+                name="timezone"
+                value={timezone}
+                onChange={(e) => handleTimezoneChange(e)}
+                className={styles.sign}
+                placeholder="ex) UTC 00:00~03:00"
+              />
             </div>
           </div>
           <div className={styles.profileContainer}>
@@ -212,13 +273,27 @@ const SetUpProfile = () => {
                 <div>
                   <div className={styles.profileLine}>
                     <div className={styles.profileTitle}>Degree</div>
-                    <input
-                      type="text"
-                      name="degree"
-                      value={education.degree}
-                      onChange={handleEducationChange}
-                      className={styles.profileInput}
-                    />
+                    <div
+                      className={styles.degreeBox}
+                      onClick={(e) => handleDegreeChange(e, "")}
+                    >
+                      <div className={styles.timezoneText}>
+                        {education.degree}
+                      </div>
+
+                      {degreeState && (
+                        <div className={styles.languageDropbox}>
+                          {degreeList.map((degree) => (
+                            <div
+                              key={degree}
+                              onClick={(e) => handleDegreeChange(e, degree)}
+                            >
+                              {degree}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className={styles.profileLine}>
                     <div className={styles.profileTitle}>Name of School</div>

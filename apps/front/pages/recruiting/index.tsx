@@ -34,6 +34,8 @@ const Recruiting: NextPage = () => {
   } else if (user.uEditorType === "BEGINNER") {
     router.push("/recruiting/verification");
     return <Loading />;
+  } else if (user.uId) {
+    router.push("/profile");
   }
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
