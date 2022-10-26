@@ -262,7 +262,7 @@ const SetUpProfile = () => {
                   </div>
                   <div className={styles.profileLine}>
                     <div className={styles.profileTitle}>
-                      A certificate of enrollment/graduation
+                      Certificate of enrollment/graduation
                     </div>
                     <input
                       type="file"
@@ -271,7 +271,7 @@ const SetUpProfile = () => {
                       className={styles.fileInput}
                     />
                     <div style={{ width: "250px" }}>
-                      Can Uploadable Files <br />
+                      Uploadable Files <br />
                       (.pdf, .doc, .docx, .png, .jpg)
                     </div>
                   </div>

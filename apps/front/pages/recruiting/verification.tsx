@@ -27,13 +27,29 @@ const Verification = () => {
   }
 
   const userFullName =
-    `${user.uLastName} ${user.uFirstName}` || router.query.name;
+    `${user.uFirstName} ${user.uLastName}` || router.query.name;
 
   const handleNextBtnClick = async () => {
     if (!verifiedEmail) {
       alert("Mail verification required");
       return;
     }
+
+    // const body = {
+    //   senderAddress: "official@atrans.world",
+    //   senderName: "ATrans",
+    //   title: "Verification Code",
+    //   body: "12356",
+    //   confirmAndSend: false,
+    //   advertising: false,
+    //   recipients: [user.uEmail],
+    // };
+    // const headers = {};
+    // const mailRes = await Api.mailSend(body, headers);
+    // if (mailRes.ok) {
+    //   console.log(mailRes);
+    // }
+
     const data = { uEmail: user.uEmail };
     const res = await Api.post(UserApiPath.checkedEmail, data);
     if (res.ok) {
@@ -58,7 +74,7 @@ const Verification = () => {
           </div>
           <div className={styles.accountContainer}>
             <div className={styles.inputContainer}>
-              <div>
+              <div style={{ display: "none" }}>
                 <div className={styles.subtitleContainer}>
                   <div className={styles.subTitle}>
                     Verify your E-mail address
@@ -101,7 +117,7 @@ const Verification = () => {
               }
               onClick={handleNextBtnClick}
             >
-              Next
+              Skip for now
             </div>
           </div>
         </div>

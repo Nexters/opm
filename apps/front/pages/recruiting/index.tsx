@@ -58,7 +58,7 @@ const Recruiting: NextPage = () => {
     dispatch(logIn(jsonData));
     router.push({
       pathname: "/recruiting/verification",
-      query: { name: `${lastName} ${firstName}` },
+      query: { name: `${firstName} ${lastName}` },
     });
   };
 

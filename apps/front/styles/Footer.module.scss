@@ -20,7 +20,7 @@
   overflow: visible;
   position: relative;
   line-height: 1.2;
-  color: $gray600;
+  color: gray;
   font-size: 16px;
 }
 
@@ -28,6 +28,7 @@
   display: flex;
   justify-content: space-between;
   cursor: pointer;
+  color: darkgray
 }
 
 .conditionsMenu {

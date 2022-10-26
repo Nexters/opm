@@ -184,7 +184,7 @@ const Certificate = () => {
                 <div>
                   <div className={styles.subTitle}>Upload Resume</div>
                   <div className={styles.certificateGuideTitle}>
-                    Can Uploadable Files (.pdf, .doc, .docx, .png, .jpg)
+                    Uploadable Files (.pdf, .doc, .docx, .png, .jpg)
                   </div>
                 </div>
                 <input

@@ -14,7 +14,7 @@ const Submitted: NextPage = () => {
   const user = useSelector<RootState, UserInfo>((state) => state.user);
 
   const userFullName =
-    `${user.uLastName} ${user.uFirstName}` || router.query.name;
+    `${user.uFirstName} ${user.uLastName}` || router.query.name;
 
   return (
     <>
@@ -27,10 +27,11 @@ const Submitted: NextPage = () => {
       <div className={styles.smallContainer}>
         <div className={styles.rightContainer}>
           <div className={styles.title}>
-            Thank you for applying!, <br /> {userFullName}!
+            Thank you for applying, <br /> {userFullName}!
           </div>
           <div className={styles.description}>
-            I will send you an email after reviewing it as soon as possible.
+            We will send you an email after reviewing your application as soon
+            as possible.
           </div>
         </div>
       </div>

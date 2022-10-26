@@ -54,8 +54,8 @@ const signUpEditor = async (req: Request, res: Response) => {
     uPassword,
     uEditorType,
     uEmailCheck,
-    uProfileInfoList,
-    uCertificateList,
+    uProfileInfo,
+    uCertificate,
     uFiles,
   } = req.body;
 
@@ -76,8 +76,8 @@ const signUpEditor = async (req: Request, res: Response) => {
           uLastName: uLastName,
           uEditorType: uEditorType,
           uEmailCheck: uEmailCheck,
-          uProfileInfoList: uProfileInfoList,
-          uCertificateList: uCertificateList,
+          uProfileInfo: uProfileInfo,
+          uCertificate: uCertificate,
           uFiles: uFiles,
         });
         console.info("회원등록 정보:", newUser);
