@@ -40,6 +40,10 @@ const Navigation: NextPage<NavigationProps> = ({
     router.push("/contentRequest");
   };
 
+  const handlePosts = () => {
+    router.push("/posts");
+  };
+
   const handleDropdown = () => {
     if (!user.uId) {
       router.push("/logIn");
@@ -115,6 +119,14 @@ const Navigation: NextPage<NavigationProps> = ({
               />
             )}
           </div>
+          <button
+            className={
+              homeTrans ? styles.postsButtonTransparent : styles.postsButton
+            }
+            onClick={handlePosts}
+          >
+            Posts
+          </button>
           <button
             className={homeTrans ? styles.buttonTransparent : styles.button}
             onClick={handleRequest}
