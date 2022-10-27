@@ -112,12 +112,12 @@
   .introduction {
     position: absolute;
     top: 30%;
-    left: 10%;
+    left: 180px;
   }
 
   .mainText {
     color: white;
-    font-size: 64px;
+    font-size: 54px;
     font-weight: bold;
     margin: 10px 0px;
   }
@@ -159,14 +159,14 @@
 .imageContainer {
   display: flex;
   width: 100%;
-  height: 70%;
+  height: 60%;
   justify-content: space-between;
+  align-items: center;
   gap: 30px;
 }
 
 .imageBox {
   width: 90%;
-  height: 90%;
 }
 
 .explainText {
@@ -191,3 +191,13 @@
   cursor: pointer;
 }
 
+.explainContainer {
+  position: relative;
+  height: 100%;
+}
+
+.explainFooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
