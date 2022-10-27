@@ -23,10 +23,59 @@ const EditCardList: NextPage = () => {
     apiCall();
   }, []);
 
+  const [viewStatus, setViewStatus] = useState<Boolean>(false);
+  const handleViewStatus = () => {
+    setViewStatus(!viewStatus);
+  };
+
+  const categoryList = [
+    "All",
+    "Story Writing",
+    "Summary Writing",
+    "Essays",
+    "Admissions/Applications",
+    "Business",
+    "Academic Writing",
+    "Assignments",
+    "Other Writings",
+  ];
+  const [category, setCategory] = useState<number>(0);
+  const [categoryDrop, setCategoryDrop] = useState<Boolean>(false);
+  const handleCategory = (i: number) => {
+    setCategoryDrop(!categoryDrop);
+    if (i !== -1) {
+      setCategory(i);
+    }
+  };
+
   return (
     <div className={styles.editingList}>
       <div className={styles.editingListTitle}>
         Contents waiting for editing.
+      </div>
+      <div className={styles.categoryTitle}>
+        <div>
+          Category &gt;{" "}
+          <span
+            className={styles.categoryDropBox}
+            onClick={() => handleCategory(-1)}
+          >
+            {categoryList[category]}
+            {categoryDrop && (
+              <div className={styles.categoryDropdown}>
+                {categoryList.map((category, i) => (
+                  <div key={i} onClick={() => handleCategory(i)}>
+                    {category}
+                  </div>
+                ))}
+              </div>
+            )}
+          </span>
+        </div>
+        <label className={styles.waitingCheckbox} onClick={handleViewStatus}>
+          <input type="checkbox" name="waitingStatus" value="hi" />
+          <span>View only WAITING</span>
+        </label>
       </div>
       <div className={styles.editingListContainer}>
         <>
