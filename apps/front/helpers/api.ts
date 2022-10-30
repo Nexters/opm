@@ -47,4 +47,11 @@ export const Api = {
       },
     );
   },
+  mailSend: async (body: any, headers: any) => {
+    return fetch("https://mail.apigw.ntruss.com/api/v1/mails", {
+      method: "POST",
+      headers,
+      body,
+    });
+  },
 };

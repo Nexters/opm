@@ -13,8 +13,13 @@ const ExplainFlow: FunctionComponent = () => {
   return (
     <div className={styles.explainContainer}>
       <div className={styles.editingList}>
-        <h1 className={styles.explainText}>Introduce 1</h1>
-        <h1 className={styles.explainText}>Introduce 2</h1>
+        <h1 className={styles.explainText}>
+          Affordable prices, Quality services.
+        </h1>
+        <h1 className={styles.explainText}>
+          Native editors from English-speaking countries to help you get done
+          with your work.
+        </h1>
         <div className={styles.imageContainer}>
           <div className={styles.imageBox}>
             <Image
@@ -46,7 +51,7 @@ const ExplainFlow: FunctionComponent = () => {
         </div>
         <div>
           <h3 className={styles.buttonText} onClick={handlePosts}>
-            Looking at the writing
+            Go to posts
           </h3>
         </div>
       </div>

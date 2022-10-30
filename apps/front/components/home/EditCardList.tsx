@@ -57,12 +57,12 @@ const EditCardList: NextPage = () => {
         <div>
           Category &gt;{" "}
           <span
-            className={styles.categoryDropBox}
+            className={styles.categoryFilterDropBox}
             onClick={() => handleCategory(-1)}
           >
             {categoryList[category]}
             {categoryDrop && (
-              <div className={styles.categoryDropdown}>
+              <div className={styles.categoryFilterDropdown}>
                 {categoryList.map((category, i) => (
                   <div key={i} onClick={() => handleCategory(i)}>
                     {category}

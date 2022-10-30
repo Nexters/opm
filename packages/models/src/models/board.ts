@@ -19,3 +19,25 @@ export interface BoardEditData {
   aProofread: string;
   aProofreadDate: string;
 }
+
+export type CATEGORY =
+  | "All"
+  | "Story Writing"
+  | "Summary Writing"
+  | "Essays"
+  | "Admissions/Applications"
+  | "Business"
+  | "Academic Writing"
+  | "Assignments"
+  | "Other Writings";
+export const CategoryList: CATEGORY[] = [
+  "All",
+  "Story Writing",
+  "Summary Writing",
+  "Essays",
+  "Admissions/Applications",
+  "Business",
+  "Academic Writing",
+  "Assignments",
+  "Other Writings",
+];

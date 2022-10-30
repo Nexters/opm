@@ -15,6 +15,7 @@ import BackButton from "../../components/common/BackButton";
 import BoardTextArea from "../../components/board/BoardTextArea";
 import { clearBoard } from "../../store/slice/board";
 import { setBoard } from "../../store/slice/board";
+import BoardOrderDetail from "../../components/board/BoardOrderDetail";
 
 export enum BoardPhase {
   view = "view",
@@ -34,7 +35,7 @@ const Board: NextPage = () => {
     board.aEditList?.[board.aEditList.length - 1]?.aProofread ?? board.aContent,
   );
   const [isRender, setIsRender] = useState(false);
-
+  console.log(boardText, "in id.tsx");
   useEffect(() => {
     if (isRender || !pathAid) {
       return;
@@ -149,7 +150,12 @@ const Board: NextPage = () => {
           />
         </div>
         <div className={styles.chatContainer}>
-          {isOpenChat ? <ChatView /> : <div></div>}
+          {isOpenChat ? (
+            <ChatView />
+          ) : (
+            // TODO: update content props
+            <BoardOrderDetail content={"Hello, world!"} />
+          )}
         </div>
       </main>
     </>
