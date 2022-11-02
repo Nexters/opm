@@ -33,7 +33,8 @@ const BoardTextArea: FunctionComponent<BoardAreaProps> = ({
       <BoardContent
         originText={board.aContent}
         editedText={
-          board.aEditList?.[board.aEditList.length - 1]?.aProofread ?? ""
+          board.aEditList?.[board.aEditList.length - 1]?.aProofread ||
+          board.aContent
         }
       />
     );
@@ -45,14 +46,21 @@ const BoardTextArea: FunctionComponent<BoardAreaProps> = ({
       <BoardCompleteContent
         originText={board.aContent}
         editedText={
-          board.aEditList?.[board.aEditList.length - 1]?.aProofread ?? ""
+          board.aEditList?.[board.aEditList.length - 1]?.aProofread ||
+          board.aContent
         }
       />
     );
   }
 
   return (
-    <BoardEditContent text={boardText} onChange={handleEditContentChange} />
+    <BoardEditContent
+      text={
+        board.aEditList?.[board.aEditList.length - 1]?.aProofread ||
+        board.aContent
+      }
+      onChange={handleEditContentChange}
+    />
   );
 };
 
