@@ -15,7 +15,7 @@ const Posts: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
-      <div className={styles.homeContainer}>
+      <div>
         <EditCardList />
       </div>
       <Footer />

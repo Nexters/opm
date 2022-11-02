@@ -9,10 +9,15 @@ interface ArticleCardProps extends BoardInfo {
   onArticleClick: (aId: string) => void;
 }
 
+const formatDate = (date: string) => {
+  return date.substring(0, 10);
+};
+
 const ArticleCard: FunctionComponent<ArticleCardProps> = ({
   aId,
   onArticleClick,
-  aTitle,
+  aCategory,
+  aCreateDate,
   aStatus,
   aDescription,
 }) => {
@@ -20,12 +25,17 @@ const ArticleCard: FunctionComponent<ArticleCardProps> = ({
     <div className={styles.listContainer}>
       <div className={styles.editingCard} onClick={() => onArticleClick(aId)}>
         <div className={styles.editingCardTitleContainer}>
-          <div className={styles.editingCardTitle}>{aTitle}</div>
+          <div className={styles.editingCardTitle}>{aCategory}</div>
           {aStatus === "COMPLETE" && (
             <div className={styles.editingCardCompleteText}>complete</div>
           )}
         </div>
-        <div className={styles.editingCardDescription}>{aDescription}</div>
+        <div className={styles.editingCardDescription}>
+          {aDescription ? aDescription : "No additional request"}
+        </div>
+        <div className={styles.editingCardCreateDate}>
+          {formatDate(aCreateDate)}
+        </div>
       </div>
       <RightButton />
     </div>

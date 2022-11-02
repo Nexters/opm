@@ -10,7 +10,7 @@ import styles from "../../styles/Home.module.scss";
 interface EditCardProps extends BoardInfo {}
 
 const EditCard: FunctionComponent<EditCardProps> = (props) => {
-  const { aId, aTitle, uId, aStatus, aDescription } = props;
+  const { aId, aCategory, uId, aStatus, aDescription, aCreateDate } = props;
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -21,18 +21,27 @@ const EditCard: FunctionComponent<EditCardProps> = (props) => {
     router.push(`/board/${aId}`);
   };
 
+  const formatDate = (date: string) => {
+    return date.substring(0, 10);
+  };
+
   return (
     <div className={styles.editingCard} onClick={handleEditCardClick}>
       <div className={styles.editingCardTitleContainer}>
-        <div className={styles.editingCardTitle}>{aTitle}</div>
+        <div className={styles.editingCardTitle}>{aCategory}</div>
         {user.uId === uId && (
-          <div className={styles.editingCardIsMineText}>my request</div>
+          <div className={styles.editingCardIsMineText}>My request</div>
         )}
         {aStatus === "COMPLETE" && (
-          <div className={styles.editingCardCompleteText}>complete</div>
+          <div className={styles.editingCardCompleteText}>Completed</div>
         )}
       </div>
-      <div className={styles.editingCardDescription}>{aDescription}</div>
+      <div className={styles.editingCardDescription}>
+        {aDescription ? aDescription : "No additional request"}
+      </div>
+      {/* <div className={styles.editingCardCreateDate}>
+        {formatDate(aCreateDate)}
+      </div> */}
     </div>
   );
 };
