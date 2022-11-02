@@ -30,7 +30,7 @@ export const runSocket = (io: Server) => {
         from: "SYSTEM",
         to: [uId],
         timestamp: new Date().toISOString(),
-        textBody: "open chatting room",
+        textBody: "Open Chatting Room",
       });
       rooms[aId].push(socket.id);
       socket.join(aId);

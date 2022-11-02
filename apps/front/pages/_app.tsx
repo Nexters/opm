@@ -8,6 +8,10 @@ import wrapper from "../store";
 function MyApp({ Component, pageProps }: AppProps) {
   const [width, height] = useWindowSize();
 
+  if (process?.env?.NODE_ENV === "development") {
+    return <Component {...pageProps} />;
+  }
+
   return width < 1240 ? (
     <Error
       title="For Crystal-clear proofreading."

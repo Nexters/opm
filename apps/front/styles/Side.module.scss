@@ -2,7 +2,7 @@
 
 .container {
   background-color: $white;
-  height: 100%;
+  height: 78%;
   padding: 10px;
 }
 
@@ -24,7 +24,7 @@
   border-radius: 12px;
   color: $gray700;
   background-color: $gray100;
-  padding: 30px 27px 0 27px;
+  padding: 14px 27px 0 27px;
   font-family: 'Noto Sans KR';
 }
 
@@ -66,4 +66,58 @@
   height: 48px;
   padding: 16px 20px 0 20px; 
   color: $gray400;
+}
+
+.nameCardContainer {
+  height: 22%;
+  background-color: #E8EBFF;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+}
+.nameCardInName {
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.descriptionContainer {
+  height: 78%;
+  background-color: #FFFFFF;
+  padding: 30px;
+  align-items: center;
+}
+.descriptionInName {
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.descriptionBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.descriptionTopContainer {
+  height: 22%;
+  background-color: #E8EBFF;
+  padding: 20px 30px;
+  align-items: center;
+}
+.descriptionTopBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-wrap: break-word;
+}
+
+.messageSystem {
+  width: fit-content;
+  display: flex;
+  padding: 4px 16px;
+  background-color: lightgray;
+  color: white;
+  margin: auto;
 }

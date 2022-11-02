@@ -13,40 +13,43 @@ const ExplainFlow: FunctionComponent = () => {
   return (
     <div className={styles.explainContainer}>
       <div className={styles.editingList}>
-        <h1 className={styles.explainText}>Introduce 1</h1>
-        <h1 className={styles.explainText}>Introduce 2</h1>
+        <div>
+          <h1 className={styles.explainText}>
+            Affordable prices, Quality services.
+          </h1>
+          <h1 className={styles.explainText}>
+            Native editors from English-speaking countries to help you get done
+            with your work.
+          </h1>
+        </div>
         <div className={styles.imageContainer}>
+          <div>
+            <Image src="/backbutton.png" alt="logo" width={40} height={40} />
+          </div>
           <div className={styles.imageBox}>
-            <Image
-              src="/svg/tempImage.svg"
-              alt="explain flow 1"
-              layout="responsive"
+            <video
+              src="/home1.mp4"
+              className={styles.videoSection}
+              autoPlay
+              muted
+              loop
               width="90%"
               height="70%"
             />
           </div>
-          <div className={styles.imageBox}>
-            <Image
-              src="/svg/tempImage.svg"
-              alt="explain flow 2"
-              layout="responsive"
-              width="90%"
-              height="70%"
-            />
+          <div style={{ width: "40%", fontWeight: "200" }}>
+            <div>
+              Please select a category and register your writing. <br />
+              We&apos;ll match the editor to you.
+            </div>
           </div>
-          <div className={styles.imageBox}>
-            <Image
-              src="/svg/tempImage.svg"
-              alt="explain flow 3"
-              layout="responsive"
-              width="90%"
-              height="70%"
-            />
+          <div style={{ transform: "rotate(180deg)" }}>
+            <Image src="/backbutton.png" alt="logo" width={40} height={40} />
           </div>
         </div>
         <div>
           <h3 className={styles.buttonText} onClick={handlePosts}>
-            Looking at the writing
+            Go to posts
           </h3>
         </div>
       </div>

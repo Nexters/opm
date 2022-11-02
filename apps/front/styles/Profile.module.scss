@@ -76,7 +76,7 @@
 }
 
 .content {
-  background-color: none;
+  height: 100%;
   margin: 0 120px 0 120px;
 }
 
@@ -84,7 +84,7 @@
   flex-direction: column;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  height: 90vh;
+  height: 100%;
 }
 
 .editingCard {
