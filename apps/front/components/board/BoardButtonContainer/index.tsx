@@ -13,6 +13,7 @@ import SaveButtonGroup from "./SaveButtonGroup";
 import CompleteCheckButtonGroup from "./CompleteCheckButtonGroup";
 import WaitingButtonGroup from "./WaitingButtonGroup";
 import EditButtonGroup from "./EditButtonGroup";
+import NonValidButton from "./NonValidButton";
 
 interface BoardButtonContainerProps {
   boardPhase: BoardPhase;
@@ -29,43 +30,39 @@ const BoardButtonContainer: FunctionComponent<BoardButtonContainerProps> = (
   const user = useSelector<RootState, UserInfo>((state) => state.user);
   const board = useSelector<RootState, BoardInfo>((state) => state.board);
 
-  const nonValidViewer = ![board.eId, board.uId].includes(user.uId);
-  const nonValidEditing = !user.uId;
+  const isEditor = user.uEditorType === "EDITOR" ? true : false;
 
   const isMyRequest = board.uId === user.uId;
+  const isMyWork = board.eId === user.uId;
 
-  if (nonValidEditing && board.aStatus === "EDITING") {
+  if (board.aStatus === "INIT") {
+    if (isEditor) return <AcceptButtonGroup {...props} />;
+    if (isMyRequest) return <WaitingButtonGroup />;
     return <NonValidEditingButtonGroup />;
   }
 
-  if (nonValidViewer && board.aStatus !== "INIT") {
+  if (board.aStatus === "EDITING") {
+    if (isMyRequest) return <WaitingButtonGroup />;
+    if (isMyWork) {
+      if (boardPhase === "edit") {
+        return <SaveButtonGroup {...props} />;
+      }
+      return <EditButtonGroup {...props} />;
+    }
+    return <NonValidViewerButtonGroup />;
+  }
+
+  if (board.aStatus === "DONE") {
+    if (isMyRequest) return <CompleteCheckButtonGroup {...props} />;
+    if (isMyWork) return <WaitingButtonGroup />;
     return <NonValidViewerButtonGroup />;
   }
 
   if (board.aStatus === "COMPLETE") {
-    return <CompleteButtonGroup />;
+    return <NonValidButton />;
   }
 
-  if (board.aStatus === "EDITING" && board.eId === user.uId) {
-    if (boardPhase === "edit") {
-      return <SaveButtonGroup {...props} />;
-    }
-    return <EditButtonGroup {...props} />;
-  }
-
-  if (board.aStatus === "INIT") {
-    return isMyRequest ? (
-      <WaitingButtonGroup />
-    ) : (
-      <AcceptButtonGroup {...props} />
-    );
-  }
-
-  if (board.uId === user.uId) {
-    return <CompleteCheckButtonGroup {...props} />;
-  }
-
-  return <EditButtonGroup {...props} />;
+  return <CompleteButtonGroup />;
 };
 
 export default BoardButtonContainer;

@@ -6,7 +6,7 @@ const NonValidViewerButtonGroup: FunctionComponent = () => {
   return (
     <div className={styles.buttonContainer}>
       <div className={styles.blankButton}></div>
-      <span>This post is being edited</span>
+      <div style={{ margin: "auto 0" }}>This post is being edited</div>
     </div>
   );
 };

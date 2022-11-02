@@ -2,15 +2,13 @@ import { FunctionComponent } from "react";
 
 import styles from "../../../styles/Board.module.scss";
 
-const NonValidEditingButtonGroup: FunctionComponent = () => {
+const NonValidViewerButtonGroup: FunctionComponent = () => {
   return (
     <div className={styles.buttonContainer}>
       <div className={styles.blankButton}></div>
-      <div style={{ margin: "auto 0" }}>
-        This post is waiting for editor ...
-      </div>
+      <div style={{ margin: "auto 0" }}>This post has been edited</div>
     </div>
   );
 };
 
-export default NonValidEditingButtonGroup;
+export default NonValidViewerButtonGroup;
