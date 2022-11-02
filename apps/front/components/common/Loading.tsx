@@ -20,7 +20,7 @@ const Loading: FunctionComponent<LoadingProps> = ({
 }) => {
   return (
     <>
-      <Navigation />
+      {/* <Navigation /> */}
       <div
         style={{
           width: "100%",

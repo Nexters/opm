@@ -16,6 +16,7 @@ import styles from "../../styles/Login.module.scss";
 import { Api } from "../../helpers/api";
 import { RootState } from "../../store";
 import Loading from "../../components/common/Loading";
+import { logout } from "../../store/slice/user";
 import {
   pickAssignment,
   updateAssignmentNumber,
@@ -163,10 +164,8 @@ const Certificate = () => {
 
     const res = await Api.filePost(UserApiPath.setUpCertificates, formData);
     if (res.ok) {
-      router.push({
-        pathname: "/recruiting/submitted",
-        query: { name: `${user.uFirstName} ${user.uLastName}` },
-      });
+      logout();
+      router.push("/logIn");
       return;
     }
   };
@@ -205,6 +204,7 @@ const Certificate = () => {
                 </div>
                 <input
                   type="file"
+                  accept="image/png,image/jpg,.doc,.docx,.pdf"
                   onChange={handleResumeChange}
                   className={styles.resumeFileInput}
                 />

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { BoardApiPath, BoardInfo, StatusCode, Url, UserInfo } from "opm-models";
 import { useDispatch, useSelector } from "react-redux";
 
-import ChatView from "../../components/board/BoardSideContainer/ChatView";
 import Navigation from "../../components/common/Navigation";
 import styles from "../../styles/Board.module.scss";
 import { RootState } from "../../store";
@@ -15,7 +14,6 @@ import BackButton from "../../components/common/BackButton";
 import BoardTextArea from "../../components/board/BoardTextArea";
 import { clearBoard } from "../../store/slice/board";
 import { setBoard } from "../../store/slice/board";
-import BoardOrderDetail from "../../components/board/BoardOrderDetail";
 import BoardSideContainer from "../../components/board/BoardSideContainer";
 
 export enum BoardPhase {

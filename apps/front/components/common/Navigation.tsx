@@ -130,6 +130,7 @@ const Navigation: NextPage<NavigationProps> = ({
           <button
             className={homeTrans ? styles.buttonTransparent : styles.button}
             onClick={handleRequest}
+            disabled={user.uEditorType !== "CLIENT"}
           >
             Request
           </button>
@@ -137,7 +138,8 @@ const Navigation: NextPage<NavigationProps> = ({
       </div>
       {dropdownVisible && (
         <div className={styles.dropdown}>
-          {board.alarmList
+          No new notifications.
+          {/* {board.alarmList
             .slice(-5)
             .reverse()
             .map((alarm) => (
@@ -145,7 +147,7 @@ const Navigation: NextPage<NavigationProps> = ({
                 <div className={styles.messageInfo}>New message on</div>
                 <div className={styles.messageContent}>{alarm.content}</div>
               </div>
-            ))}
+            ))} */}
         </div>
       )}
     </>

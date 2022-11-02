@@ -33,6 +33,14 @@ const Submitted: NextPage = () => {
             We will send you an email after reviewing your application as soon
             as possible.
           </div>
+          <div className={styles.nameCardTitle}>Your temporary name card</div>
+          <div className={styles.nameCardContainer}>
+            <div className={styles.nameCardInName}>{userFullName}</div>
+            <div>rate ...</div>
+            <div>School : University </div>
+            <div>Degree : {user.uProfileInfo?.educations[0].degree} </div>
+            <div>Major : {user.uProfileInfo?.educations[0].major}</div>
+          </div>
         </div>
       </div>
       <Footer />

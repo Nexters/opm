@@ -68,7 +68,7 @@ const SetUpProfile = () => {
     "Engineer’s Degree",
   ];
 
-  const [formData, setFormData] = useState(new FormData());
+  const [formData, setFormData] = useState<FormData>(new FormData());
   const [fileState, setFileState] = useState<boolean>(false);
   const [educations, setEducations] = useState([]);
 
@@ -111,15 +111,17 @@ const SetUpProfile = () => {
 
   const user = useSelector<RootState, UserInfo>((state) => state.user);
 
-  if (!user.uId) {
-    router.push("/logIn");
-    return;
-  }
+  useEffect(() => {
+    if (!user.uId) {
+      router.push("/logIn");
+      return;
+    }
 
-  if (user.uProfileInfo) {
-    router.push("/recruiting/certificate");
-    return <Loading />;
-  }
+    // if (!user.uProfileInfo) {
+    //   router.push("/recruiting/certificate");
+    //   return;
+    // }
+  }, [user, router]);
 
   const handleLanguageChange = (i: string | null) => {
     setLanguageState(!languageState);
@@ -148,7 +150,7 @@ const SetUpProfile = () => {
       [e.currentTarget.name]: e.currentTarget.value,
     });
     if (e.currentTarget.name === "file" && e.currentTarget.files) {
-      formData.append("file", e.currentTarget.files[0]);
+      formData!.append("file", e.currentTarget.files[0]);
       setFormData(formData);
       setFileState(true);
     }
@@ -198,10 +200,14 @@ const SetUpProfile = () => {
       educations: [education],
       careers: [career],
     };
-    formData.append("profile", JSON.stringify(profile));
-    formData.append("uEmail", JSON.stringify(user.uEmail));
+    formData!.append("profile", JSON.stringify(profile));
+    formData!.append("uEmail", JSON.stringify(user.uEmail));
 
     const res = await Api.filePost(UserApiPath.setUpEditorProfile, formData);
+    if (res.status === 406) {
+      alert("Wrong file ext");
+      setFormData(new FormData());
+    }
     if (res.ok) {
       router.push("/recruiting/certificate");
       return;
@@ -215,208 +221,219 @@ const SetUpProfile = () => {
         <meta name="description" content="OPM" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navigation />
-      <div className={styles.mainContainer}>
-        <div className={styles.rightContainer}>
-          <div className={styles.title}>Set up your Profile</div>
-          <div className={styles.description}>
-            Let us know your professional info. <br />
-            This info will show on your profile card and profile page, <br /> so
-            please enter details that will give your clients a sense of
-            credibility.
-          </div>
-          <div className={styles.registerContainer}>
-            <div className={styles.inputContainer}>
-              <div className={styles.subTitle}>Language</div>
-              <div
-                className={styles.timezoneBox}
-                onClick={() => handleLanguageChange("")}
-              >
-                <div className={styles.timezoneText}>{language}</div>
-
-                {languageState && (
-                  <div className={styles.languageDropbox}>
-                    {languageList.map((lang) => (
-                      <div
-                        key={lang}
-                        onClick={() => handleLanguageChange(lang)}
-                      >
-                        {lang}
-                      </div>
-                    ))}
-                  </div>
-                )}
+      {user.uId ? (
+        <>
+          <Navigation />
+          <div className={styles.mainContainer}>
+            <div className={styles.rightContainer}>
+              <div className={styles.title}>Set up your Profile</div>
+              <div className={styles.description}>
+                Let us know your professional info. <br />
+                This info will show on your profile card and profile page,{" "}
+                <br /> so please enter details that will give your clients a
+                sense of credibility.
               </div>
-            </div>
-            <div className={styles.inputContainer}>
-              <div className={styles.subTitle}>Working Hours</div>
-              <input
-                type="text"
-                name="timezone"
-                value={timezone}
-                onChange={(e) => handleTimezoneChange(e)}
-                className={styles.sign}
-                placeholder="ex) UTC 00:00~03:00"
-              />
-            </div>
-          </div>
-          <div className={styles.profileContainer}>
-            <div>
-              <div className={styles.inputContainer}>
-                <div className={styles.subtitleContainer}>
-                  <div className={styles.subTitle}>Educations</div>
-                  <div className={styles.guideText}>
-                    Required
-                    {/* + Add more education history */}
+              <div className={styles.registerContainer}>
+                <div className={styles.inputContainer}>
+                  <div className={styles.subTitle}>Language</div>
+                  <div
+                    className={styles.timezoneBox}
+                    onClick={() => handleLanguageChange("")}
+                  >
+                    <div className={styles.timezoneText}>{language}</div>
+
+                    {languageState && (
+                      <div className={styles.languageDropbox}>
+                        {languageList.map((lang) => (
+                          <div
+                            key={lang}
+                            onClick={() => handleLanguageChange(lang)}
+                          >
+                            {lang}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
+                <div className={styles.inputContainer}>
+                  <div className={styles.subTitle}>Working Hours</div>
+                  <input
+                    type="text"
+                    name="timezone"
+                    value={timezone}
+                    onChange={(e) => handleTimezoneChange(e)}
+                    className={styles.sign}
+                    placeholder="ex) UTC 00:00~03:00"
+                  />
+                </div>
+              </div>
+              <div className={styles.profileContainer}>
                 <div>
-                  <div className={styles.profileLine}>
-                    <div className={styles.profileTitle}>Degree</div>
-                    <div
-                      className={styles.degreeBox}
-                      onClick={(e) => handleDegreeChange(e, "")}
-                    >
-                      <div className={styles.timezoneText}>
-                        {education.degree}
+                  <div className={styles.inputContainer}>
+                    <div className={styles.subtitleContainer}>
+                      <div className={styles.subTitle}>Educations</div>
+                      <div className={styles.guideText}>
+                        Required
+                        {/* + Add more education history */}
                       </div>
+                    </div>
+                    <div>
+                      <div className={styles.profileLine}>
+                        <div className={styles.profileTitle}>Degree</div>
+                        <div
+                          className={styles.degreeBox}
+                          onClick={(e) => handleDegreeChange(e, "")}
+                        >
+                          <div className={styles.timezoneText}>
+                            {education.degree}
+                          </div>
 
-                      {degreeState && (
-                        <div className={styles.languageDropbox}>
-                          {degreeList.map((degree) => (
-                            <div
-                              key={degree}
-                              onClick={(e) => handleDegreeChange(e, degree)}
-                            >
-                              {degree}
+                          {degreeState && (
+                            <div className={styles.languageDropbox}>
+                              {degreeList.map((degree) => (
+                                <div
+                                  key={degree}
+                                  onClick={(e) => handleDegreeChange(e, degree)}
+                                >
+                                  {degree}
+                                </div>
+                              ))}
                             </div>
-                          ))}
+                          )}
                         </div>
-                      )}
+                      </div>
+                      <div className={styles.profileLine}>
+                        <div className={styles.profileTitle}>
+                          Name of School
+                        </div>
+                        <input
+                          type="text"
+                          name="nameOfSchool"
+                          value={education.nameOfSchool}
+                          onChange={handleEducationChange}
+                          className={styles.profileInput}
+                        />
+                      </div>
+                      <div className={styles.profileLine}>
+                        <div className={styles.profileTitle}>Major</div>
+                        <input
+                          type="text"
+                          name="major"
+                          value={education.major}
+                          onChange={handleEducationChange}
+                          className={styles.profileInput}
+                        />
+                      </div>
+                      <div className={styles.profileLine}>
+                        <div className={styles.profileTitle}>Attended Date</div>
+                        <div className={styles.profileDateBox}>
+                          <input
+                            type="date"
+                            name="attendedStartDate"
+                            value={education.attendedStartDate}
+                            onChange={handleEducationChange}
+                            className={styles.profileDate}
+                          />
+                          <div>~</div>
+                          <input
+                            type="date"
+                            name="attendedEndDate"
+                            value={education.attendedEndDate}
+                            onChange={handleEducationChange}
+                            className={styles.profileDate}
+                          />
+                        </div>
+                      </div>
+                      <div className={styles.profileLine}>
+                        <div className={styles.profileTitle}>
+                          Certificate of enrollment/graduation
+                        </div>
+                        <input
+                          type="file"
+                          name="file"
+                          accept="image/png,image/jpg,.doc,.docx,.pdf"
+                          onChange={handleEducationChange}
+                          className={styles.fileInput}
+                        />
+                        <div style={{ width: "250px" }}>
+                          Uploadable Files <br />
+                          (.pdf, .doc, .docx, .png, .jpg)
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.profileLine}>
-                    <div className={styles.profileTitle}>Name of School</div>
-                    <input
-                      type="text"
-                      name="nameOfSchool"
-                      value={education.nameOfSchool}
-                      onChange={handleEducationChange}
-                      className={styles.profileInput}
-                    />
-                  </div>
-                  <div className={styles.profileLine}>
-                    <div className={styles.profileTitle}>Major</div>
-                    <input
-                      type="text"
-                      name="major"
-                      value={education.major}
-                      onChange={handleEducationChange}
-                      className={styles.profileInput}
-                    />
-                  </div>
-                  <div className={styles.profileLine}>
-                    <div className={styles.profileTitle}>Attended Date</div>
-                    <div className={styles.profileDateBox}>
-                      <input
-                        type="date"
-                        name="attendedStartDate"
-                        value={education.attendedStartDate}
-                        onChange={handleEducationChange}
-                        className={styles.profileDate}
-                      />
-                      <div>~</div>
-                      <input
-                        type="date"
-                        name="attendedEndDate"
-                        value={education.attendedEndDate}
-                        onChange={handleEducationChange}
-                        className={styles.profileDate}
-                      />
-                    </div>
-                  </div>
-                  <div className={styles.profileLine}>
-                    <div className={styles.profileTitle}>
-                      Certificate of enrollment/graduation
-                    </div>
-                    <input
-                      type="file"
-                      name="file"
-                      onChange={handleEducationChange}
-                      className={styles.fileInput}
-                    />
-                    <div style={{ width: "250px" }}>
-                      Uploadable Files <br />
-                      (.pdf, .doc, .docx, .png, .jpg)
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className={styles.inputContainer}>
-                <div className={styles.subtitleContainer}>
-                  <div className={styles.subTitle}>Careers</div>
-                  <div className={styles.guideText}>
-                    Optional
-                    {/* + Add more career history */}
                   </div>
                 </div>
                 <div>
-                  <div className={styles.profileLine}>
-                    <div className={styles.profileTitle}>Company</div>
-                    <input
-                      type="text"
-                      name="company"
-                      value={career.company}
-                      onChange={handleCareerChange}
-                      className={styles.profileInput}
-                    />
-                  </div>
-                  <div className={styles.profileLine}>
-                    <div className={styles.profileTitle}>Position</div>
-                    <input
-                      type="text"
-                      name="position"
-                      value={career.position}
-                      onChange={handleCareerChange}
-                      className={styles.profileInput}
-                    />
-                  </div>
-                  <div className={styles.profileLine}>
-                    <div className={styles.profileTitle}>Attended Date</div>
-                    <div className={styles.profileDateBox}>
-                      <input
-                        type="date"
-                        name="attendedStartDate"
-                        value={career.attendedStartDate}
-                        onChange={handleCareerChange}
-                        className={styles.profileDate}
-                      />
-                      <div>~</div>
-                      <input
-                        type="date"
-                        name="attendedEndDate"
-                        value={career.attendedEndDate}
-                        onChange={handleCareerChange}
-                        className={styles.profileDate}
-                      />
+                  <div className={styles.inputContainer}>
+                    <div className={styles.subtitleContainer}>
+                      <div className={styles.subTitle}>Careers</div>
+                      <div className={styles.guideText}>
+                        Optional
+                        {/* + Add more career history */}
+                      </div>
                     </div>
+                    <div>
+                      <div className={styles.profileLine}>
+                        <div className={styles.profileTitle}>Company</div>
+                        <input
+                          type="text"
+                          name="company"
+                          value={career.company}
+                          onChange={handleCareerChange}
+                          className={styles.profileInput}
+                        />
+                      </div>
+                      <div className={styles.profileLine}>
+                        <div className={styles.profileTitle}>Position</div>
+                        <input
+                          type="text"
+                          name="position"
+                          value={career.position}
+                          onChange={handleCareerChange}
+                          className={styles.profileInput}
+                        />
+                      </div>
+                      <div className={styles.profileLine}>
+                        <div className={styles.profileTitle}>Attended Date</div>
+                        <div className={styles.profileDateBox}>
+                          <input
+                            type="date"
+                            name="attendedStartDate"
+                            value={career.attendedStartDate}
+                            onChange={handleCareerChange}
+                            className={styles.profileDate}
+                          />
+                          <div>~</div>
+                          <input
+                            type="date"
+                            name="attendedEndDate"
+                            value={career.attendedEndDate}
+                            onChange={handleCareerChange}
+                            className={styles.profileDate}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.editorSignUpBtnContainer}>
+                  <div
+                    className={
+                      activeBtn ? styles.logInBtn : styles.disableLoginBtn
+                    }
+                    onClick={handleNextBtnClick}
+                  >
+                    Next
                   </div>
                 </div>
               </div>
             </div>
-            <div className={styles.editorSignUpBtnContainer}>
-              <div
-                className={activeBtn ? styles.logInBtn : styles.disableLoginBtn}
-                onClick={handleNextBtnClick}
-              >
-                Next
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
+        </>
+      ) : (
+        <Loading />
+      )}
       <Footer />
     </>
   );
