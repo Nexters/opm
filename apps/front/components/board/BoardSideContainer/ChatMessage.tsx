@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
 import { MessageSocket } from "opm-models";
 
-import { parseISO } from "../../helpers/date";
-import styles from "../../styles/Chat.module.scss";
+import { parseISO } from "../../../helpers/date";
+import styles from "../../../styles/Side.module.scss";
 
 interface ChatMessageProps {
   message: MessageSocket;
@@ -11,8 +11,9 @@ interface ChatMessageProps {
 
 const ChatMessage: FunctionComponent<ChatMessageProps> = (props) => {
   const { message, userId } = props;
-  const { textBody, timestamp, from } = message;
+  const { textBody, timestamp, from, type } = message;
   const myChat = from === userId;
+  const system = type === "SYSTEM";
 
   return (
     <div
@@ -23,10 +24,14 @@ const ChatMessage: FunctionComponent<ChatMessageProps> = (props) => {
       {myChat && (
         <div className={styles.messageTimestamp}>{parseISO(timestamp)}</div>
       )}
-      <div className={myChat ? styles.messageBoxMy : styles.messageBox}>
-        {textBody}
-      </div>
-      {!myChat && (
+      {system ? (
+        <div className={styles.messageSystem}>{textBody}</div>
+      ) : (
+        <div className={myChat ? styles.messageBoxMy : styles.messageBox}>
+          {textBody}
+        </div>
+      )}
+      {!myChat && !system && (
         <div className={styles.messageTimestamp}>{parseISO(timestamp)}</div>
       )}
     </div>

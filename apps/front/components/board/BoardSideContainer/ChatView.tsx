@@ -5,9 +5,9 @@ import { MessageSocket, SocketPath, Url, UserInfo } from "opm-models";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
-import { ErrorMessage } from "../../helpers/error";
-import styles from "../../styles/Chat.module.scss";
-import { RootState } from "../../store";
+import { ErrorMessage } from "../../../helpers/error";
+import styles from "../../../styles/Side.module.scss";
+import { RootState } from "../../../store";
 
 import ChatMessage from "./ChatMessage";
 
