@@ -1,54 +1,27 @@
-import path from "path";
-
 import { Router } from "express";
 import { BoardApiPath, UserApiPath } from "opm-models";
-import multer from "multer";
+
+import uploadSingleFile from "../helpers/multer";
 
 import user from "./user";
 import board from "./board";
 
 const router = Router();
-const customStorage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, "uploads/");
-  },
-  filename: function (req, file, callback) {
-    callback(null, new Date().valueOf() + file.originalname);
-  },
-});
-const upload = multer({
-  storage: customStorage,
-  fileFilter: function (req, file, callback) {
-    let ext = path.extname(file.originalname);
-    if (
-      ext !== ".pdf" &&
-      ext !== ".png" &&
-      ext !== ".jpg" &&
-      ext !== ".doc" &&
-      ext !== ".docx"
-    ) {
-      return callback(
-        new Error("Only .pdf, .doc, .docs, .png, .jpg format allowed!"),
-      );
-    }
-    callback(null, true);
-  },
-  limits: { fileSize: 1048576 },
-});
 
 router.post(UserApiPath.signUp, user.signUpUser);
 router.post(UserApiPath.signUpEditor, user.signUpEditor);
 router.post(UserApiPath.logIn, user.logIn);
+router.post(UserApiPath.getEditorInfo, user.getEditorInfo);
 router.post(UserApiPath.checkedEmail, user.checkedEmail);
 router.post(
   UserApiPath.setUpEditorProfile,
-  upload.single("file"),
+  uploadSingleFile,
   user.setUpEditorProfile,
 );
 router.post(UserApiPath.setUpAssignments, user.setUpAssignments);
 router.post(
   UserApiPath.setUpCertificates,
-  upload.single("file"),
+  uploadSingleFile,
   user.setUpCertificates,
 );
 
