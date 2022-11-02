@@ -112,6 +112,18 @@ const logIn = async (req: Request, res: Response) => {
   });
 };
 
+const getEditorInfo = async (req: Request, res: Response) => {
+  const user = await User.findOne({ uId: req.body.eId });
+  try {
+    if (!user) {
+      return res.status(StatusCode.BAD_REQUEST).send("wrong email");
+    }
+    return res.status(StatusCode.OK).send({ data: user });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const checkedEmail = async (req: Request, res: Response) => {
   const foundUser = await User.findOne({ uEmail: req.body.uEmail });
   foundUser.uEmailCheck = true;
@@ -128,7 +140,6 @@ const setUpEditorProfile = async (req: Request, res: Response) => {
   try {
     const email = JSON.parse(req.body.uEmail);
     const profile = JSON.parse(req.body.profile);
-
     const foundUser = await User.findOne({ uEmail: email });
     foundUser.uProfileInfo = profile;
     foundUser.uFiles = {
@@ -186,6 +197,7 @@ const user = {
   signUpUser,
   signUpEditor,
   logIn,
+  getEditorInfo,
   checkedEmail,
   setUpEditorProfile,
   setUpAssignments,
