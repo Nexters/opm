@@ -129,6 +129,8 @@ export enum StatusCode {
   NOT_EDITING = 400401,
   NOT_DONE = 400402,
   NOT_COMPLETE = 400403,
+
+  NOT_ALLOWED_EXT = 400404,
   /**
    * Official Documentation @ https://tools.ietf.org/html/rfc7235#section-3.1
    *

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { BoardApiPath, BoardInfo, StatusCode, Url, UserInfo } from "opm-models";
 import { useDispatch, useSelector } from "react-redux";
 
-import ChatView from "../../components/chat/ChatView";
+import ChatView from "../../components/board/BoardSideContainer/ChatView";
 import Navigation from "../../components/common/Navigation";
 import styles from "../../styles/Board.module.scss";
 import { RootState } from "../../store";
@@ -15,6 +15,8 @@ import BackButton from "../../components/common/BackButton";
 import BoardTextArea from "../../components/board/BoardTextArea";
 import { clearBoard } from "../../store/slice/board";
 import { setBoard } from "../../store/slice/board";
+import BoardOrderDetail from "../../components/board/BoardOrderDetail";
+import BoardSideContainer from "../../components/board/BoardSideContainer";
 
 export enum BoardPhase {
   view = "view",
@@ -62,11 +64,12 @@ const Board: NextPage = () => {
       eId: user.uId,
     };
     const res = await Api.post(BoardApiPath.accept, param);
-    if (!res.ok) {
+    const { code, data } = await res.json();
+
+    if (res.status !== 200) {
       alert("something wrong...");
       return;
     }
-    const { code, data } = await res.json();
     if (code === StatusCode.BAD_REQUEST) {
       alert("BAD REQUEST");
       return;
@@ -78,7 +81,7 @@ const Board: NextPage = () => {
     dispatch(setBoard(data));
   };
   const movePage = () => {
-    router.push("/");
+    router.back();
   };
   const handleEditingButtonClick = async () => {
     if (!user.uId) return;
@@ -91,13 +94,23 @@ const Board: NextPage = () => {
   };
   const handleCompleteButtonClick = async () => {
     if (!user.uId) return;
-    const param: Partial<BoardInfo> = {
-      aId: board.aId,
-      aStatus: "COMPLETE",
-    };
-    await Api.post(BoardApiPath.changeBoardState, param);
-    setBoardPhase(BoardPhase.view);
-    router.push("/profile?tab=myRequest");
+    if (user.uId === board.eId) {
+      const param: Partial<BoardInfo> = {
+        aId: board.aId,
+        aStatus: "DONE",
+      };
+      await Api.post(BoardApiPath.changeBoardState, param);
+      setBoardPhase(BoardPhase.view);
+    }
+    if (user.uId === board.uId) {
+      const param: Partial<BoardInfo> = {
+        aId: board.aId,
+        aStatus: "COMPLETE",
+      };
+      await Api.post(BoardApiPath.changeBoardState, param);
+      setBoardPhase(BoardPhase.view);
+      router.push("/profile?tab=myRequest");
+    }
   };
   const handleSaveButtonClick = async () => {
     const { uId } = user;
@@ -116,6 +129,7 @@ const Board: NextPage = () => {
       setBoardPhase(BoardPhase.view);
       return;
     }
+    dispatch(setBoard(json.data));
     const { aEditList } = json.data as BoardInfo;
     setBoardText(aEditList[aEditList.length - 1].aProofread);
     setBoardPhase(BoardPhase.view);
@@ -148,9 +162,7 @@ const Board: NextPage = () => {
             onSaveButtonClick={handleSaveButtonClick}
           />
         </div>
-        <div className={styles.chatContainer}>
-          {isOpenChat ? <ChatView /> : <div></div>}
-        </div>
+        <BoardSideContainer />
       </main>
     </>
   );
