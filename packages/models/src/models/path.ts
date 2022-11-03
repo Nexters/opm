@@ -2,7 +2,9 @@ export type UrlKey =
   | "LOCAL_SOCKET"
   | "REAL_SOCKET"
   | "LOCAL_SERVER"
-  | "REAL_SERVER";
+  | "REAL_SERVER"
+  | "LOCAL_FRONT"
+  | "REAL_FRONT";
 
 export type SocketKey =
   | "END"
@@ -17,6 +19,8 @@ export type UserApiKey =
   | "signUp"
   | "signUpEditor"
   | "logIn"
+  | "logout"
+  | "authCheck"
   | "checkedEmail"
   | "setUpEditorProfile"
   | "setUpAssignments"
@@ -27,6 +31,8 @@ export enum UserApiEndPoint {
   signUp = "/user/signUp",
   signUpEditor = "/user/signUpEdiitor",
   logIn = "/user/logIn",
+  logout = "/user/logout",
+  authCheck = "/user/authCheck",
   checkedEmail = "/user/checkedEmail",
   setUpEditorProfile = "/user/setUpEditorProfile",
   setUpAssignments = "/user/setUpAssignments",

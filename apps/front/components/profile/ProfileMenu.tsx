@@ -33,7 +33,7 @@ const ProfileMenu: NextPage = () => {
           <input
             type="text"
             name="email"
-            value={user.uEmail}
+            value={user.uEmail || ""}
             disabled={true}
             className={styles.sign}
           />
@@ -43,7 +43,7 @@ const ProfileMenu: NextPage = () => {
           <input
             type="text"
             name="firstName"
-            value={user.uFirstName}
+            value={user.uFirstName || ""}
             onChange={onChangeFirstName}
             disabled={!isEdit}
             className={styles.sign}
@@ -54,7 +54,7 @@ const ProfileMenu: NextPage = () => {
           <input
             type="text"
             name="lastName"
-            value={user.uLastName}
+            value={user.uLastName || ""}
             onChange={onChangeLastName}
             disabled={!isEdit}
             className={styles.sign}

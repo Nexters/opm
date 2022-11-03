@@ -5,6 +5,7 @@ const Header = {
     "Content-Type": "application/json",
   },
 };
+const credentials = "include";
 
 export const Api = {
   get: async (path: string, headers = Header.json) => {
@@ -17,6 +18,7 @@ export const Api = {
       {
         method: "GET",
         headers,
+        credentials,
       },
     );
   },
@@ -31,6 +33,7 @@ export const Api = {
         method: "POST",
         headers,
         body: JSON.stringify(body),
+        credentials,
       },
     );
   },
@@ -44,6 +47,7 @@ export const Api = {
       {
         method: "POST",
         body,
+        credentials,
       },
     );
   },
@@ -52,6 +56,7 @@ export const Api = {
       method: "POST",
       headers,
       body,
+      credentials,
     });
   },
 };

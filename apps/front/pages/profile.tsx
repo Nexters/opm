@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from "querystring";
 
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserInfo } from "opm-models";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,6 @@ import {
   TAB_KEY,
   TAB_INDEX_KEY,
 } from "../helpers/profile";
-import Loading from "../components/common/Loading";
 
 const menuArr = [
   {
@@ -45,17 +44,27 @@ const Profile: NextPage = () => {
   const dispatch = useDispatch();
   const user = useSelector<RootState, UserInfo>((state) => state.user);
 
-  if (!user.uId) {
-    router.push("/logIn");
-    return <Loading />;
-  }
-  if (user.uEditorType === "BEGINNER") {
-    router.push("/recruiting/verification");
-    return <Loading />;
-  } else if (user.uEditorType === "WAITING") {
-    router.push("/recruiting/submitted");
-    return <Loading />;
-  }
+  useEffect(() => {
+    if (user.uEditorType === "BEGINNER") {
+      router.push("/recruiting/verification");
+      return;
+    } else if (user.uEditorType === "WAITING") {
+      router.push("/recruiting/submitted");
+      return;
+    }
+  }, [user, router]);
+
+  // if (!user.uId) {
+  //   router.push("/logIn");
+  //   return <Loading />;
+  // }
+  // if (user.uEditorType === "BEGINNER") {
+  //   router.push("/recruiting/verification");
+  //   return <Loading />;
+  // } else if (user.uEditorType === "WAITING") {
+  //   router.push("/recruiting/submitted");
+  //   return <Loading />;
+  // }
 
   const handleLogoutClick = () => {
     dispatch(logout());

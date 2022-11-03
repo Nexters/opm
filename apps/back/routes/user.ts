@@ -1,13 +1,19 @@
 import { randomUUID, randomBytes, pbkdf2 } from "crypto";
 
 import { Request, Response } from "express";
-import { StatusCode } from "opm-models";
+import { StatusCode, UserInfo } from "opm-models";
+import jwt from "jsonwebtoken";
 
 import User from "../models/user.model";
 
 // 상태코드 정의
 const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
+const TOKEN_ID = "_tid";
+const ONE_DAY = 86400000;
+const TOKEN_VALUE_INDEX = 1;
+//
+const SECRET_KEY = process.env.SECRET_KEY || "testKey";
 
 const signUpUser = async (req: Request, res: Response) => {
   const { uFirstName, uLastName, uEmail, uPassword, uEditorType } = req.body;
@@ -98,18 +104,98 @@ const signUpEditor = async (req: Request, res: Response) => {
 };
 
 const logIn = async (req: Request, res: Response) => {
-  const { uEmail, uPassword } = req.body;
-  const user = await User.findOne({ uEmail: uEmail });
+  const user = await User.findOne({ uEmail: req.body.uEmail });
 
   if (!user) {
     return res.status(StatusCode.BAD_REQUEST).send("잘못된 인풋입니다.");
   }
 
-  pbkdf2(uPassword, user.uPasswordSalt, 94751, 64, "sha512", (_, key) => {
-    if (user.uPassword === key.toString("base64")) {
-      return res.status(StatusCode.OK).json(user);
-    }
+  const {
+    uId,
+    uEmail,
+    uEditorType,
+    uFirstName,
+    uLastName,
+    uNickName,
+    uNotiList,
+    uProfileInfo,
+    uStatus,
+    uCertificate,
+    uCreateDate,
+  } = user;
+
+  const payload: Omit<
+    UserInfo,
+    "uPassword" | "uPasswordSalt" | "uEmailCheck" | "uFiles"
+  > = {
+    uId,
+    uEmail,
+    uEditorType,
+    uFirstName,
+    uLastName,
+    uNickName,
+    uNotiList,
+    uProfileInfo,
+    uStatus,
+    uCertificate,
+    uCreateDate,
+  };
+  // TODO: refresh token.
+  const token = jwt.sign(payload, SECRET_KEY, {
+    expiresIn: "1d",
   });
+  res.cookie(TOKEN_ID, token, {
+    expires: new Date(Date.now() + ONE_DAY),
+    httpOnly: true,
+  });
+  return res.status(200).json(user);
+
+  // TODO: 소금값 서로 다름. 확인 해야함.
+  // pbkdf2(uPassword, user.uPasswordSalt, 94751, 64, "sha512", (_, key) => {
+  //   console.log(
+  //     user.uPassword,
+  //     key.toString("base64"),
+  //     user.uPassword === key.toString("base64"),
+  //   );
+  //   if (user.uPassword === key.toString("base64")) {
+  // const MILLION = 1000000;
+  // const token = Math.floor(Math.random() * MILLION);
+
+  // res.cookie("_tid", token, {
+  //   expires: new Date(Date.now() + MILLION),
+  //   httpOnly: true,
+  // });
+  // return res.status(200).json(user);
+  //   } else {
+  //     return res.status(403).json({ message: "Invalid user" });
+  //   }
+  // });
+};
+
+const logout = (req: Request, res: Response) => {
+  res.clearCookie(TOKEN_ID);
+  return res.status(200).send("");
+};
+
+const authCheck = async (req: Request, res: Response) => {
+  const return401 = () => res.status(401).json({ message: "INVALID TOKEN" });
+  try {
+    const { cookie } = req.headers;
+    const tokenKeyValue = cookie
+      .split(";")
+      .map((cookieString) => cookieString.trim().split("="))
+      .find((tokenKeyValue) => tokenKeyValue.includes(TOKEN_ID));
+    const token = tokenKeyValue?.[TOKEN_VALUE_INDEX];
+
+    if (!token) {
+      return return401();
+    }
+    const data = jwt.verify(token, SECRET_KEY);
+    return res.status(200).json({ data });
+  } catch (e) {
+    console.info("INVALID TOKEN");
+    return return401();
+  }
 };
 
 const checkedEmail = async (req: Request, res: Response) => {
@@ -186,6 +272,8 @@ const user = {
   signUpUser,
   signUpEditor,
   logIn,
+  logout,
+  authCheck,
   checkedEmail,
   setUpEditorProfile,
   setUpAssignments,

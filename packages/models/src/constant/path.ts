@@ -9,15 +9,19 @@ import {
 
 export const Url: Record<UrlKey, string> = {
   LOCAL_SOCKET: "ws://localhost:8080",
-  REAL_SOCKET: "wss://proofor.cf:8080",
+  REAL_SOCKET: "wss://atrans.world:8080",
   LOCAL_SERVER: "http://localhost:8080",
-  REAL_SERVER: "https://proofor.cf:8080",
+  LOCAL_FRONT: "http://localhost:3000",
+  REAL_SERVER: "https://atrans.world:8080",
+  REAL_FRONT: "https://atrans.world:3000",
 };
 export const UserApiPath: Record<UserApiKey, string> = {
   all: UserApiEndPoint.all,
   signUp: UserApiEndPoint.signUp,
   signUpEditor: UserApiEndPoint.signUpEditor,
   logIn: UserApiEndPoint.logIn,
+  logout: UserApiEndPoint.logout,
+  authCheck: UserApiEndPoint.authCheck,
   checkedEmail: UserApiEndPoint.checkedEmail,
   setUpEditorProfile: UserApiEndPoint.setUpEditorProfile,
   setUpAssignments: UserApiEndPoint.setUpAssignments,

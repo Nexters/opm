@@ -36,9 +36,12 @@ const upload = multer({
   limits: { fileSize: 1048576 },
 });
 
+router.get(UserApiPath.authCheck, user.authCheck);
+
 router.post(UserApiPath.signUp, user.signUpUser);
 router.post(UserApiPath.signUpEditor, user.signUpEditor);
 router.post(UserApiPath.logIn, user.logIn);
+router.get(UserApiPath.logout, user.logout);
 router.post(UserApiPath.checkedEmail, user.checkedEmail);
 router.post(
   UserApiPath.setUpEditorProfile,
