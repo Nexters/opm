@@ -1,13 +1,19 @@
 import { randomUUID, randomBytes, pbkdf2 } from "crypto";
 
 import { Request, Response } from "express";
-import { StatusCode } from "opm-models";
+import { StatusCode, UserInfo } from "opm-models";
+import jwt from "jsonwebtoken";
 
 import User from "../models/user.model";
 
 // 상태코드 정의
 const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
+const TOKEN_ID = "_tid";
+const ONE_DAY = 86400000;
+const TOKEN_VALUE_INDEX = 1;
+
+const SECRET_KEY = process.env.SECRET_KEY || "testKey";
 
 const signUpUser = async (req: Request, res: Response) => {
   const { uFirstName, uLastName, uEmail, uPassword, uEditorType } = req.body;
@@ -29,7 +35,6 @@ const signUpUser = async (req: Request, res: Response) => {
           uLastName: uLastName,
           uEditorType: uEditorType,
         });
-        console.info("회원등록 정보:", newUser);
 
         const checkUser = await User.find({ uEmail: uEmail });
         if (checkUser.length) {
@@ -80,7 +85,6 @@ const signUpEditor = async (req: Request, res: Response) => {
           uCertificate: uCertificate,
           uFiles: uFiles,
         });
-        console.info("회원등록 정보:", newUser);
 
         const checkUser = await User.find({ uEmail: uEmail });
         if (checkUser.length) {
@@ -98,18 +102,94 @@ const signUpEditor = async (req: Request, res: Response) => {
 };
 
 const logIn = async (req: Request, res: Response) => {
-  const { uEmail, uPassword } = req.body;
-  const user = await User.findOne({ uEmail: uEmail });
+  const inputEmail = req.body.uEmail;
+  const inputPassword = req.body.uPassword;
+  const user = await User.findOne({ uEmail: inputEmail });
 
   if (!user) {
-    return res.status(StatusCode.BAD_REQUEST).send("잘못된 인풋입니다.");
+    return res.status(StatusCode.BAD_REQUEST).send("wrong email");
   }
 
-  pbkdf2(uPassword, user.uPasswordSalt, 94751, 64, "sha512", (_, key) => {
-    if (user.uPassword === key.toString("base64")) {
-      return res.status(StatusCode.OK).json(user);
+  const {
+    uId,
+    uEmail,
+    uPassword,
+    uPasswordSalt,
+    uEditorType,
+    uFirstName,
+    uLastName,
+    uNickName,
+    uNotiList,
+    uProfileInfo,
+    uStatus,
+    uCertificate,
+    uCreateDate,
+  } = user;
+
+  const payload: Omit<
+    UserInfo,
+    "uPassword" | "uPasswordSalt" | "uEmailCheck" | "uFiles"
+  > = {
+    uId,
+    uEmail,
+    uEditorType,
+    uFirstName,
+    uLastName,
+    uNickName,
+    uNotiList,
+    uProfileInfo,
+    uStatus,
+    uCertificate,
+    uCreateDate,
+  };
+
+  const createJwt = () => {
+    // TODO: refresh token.
+    const token = jwt.sign(payload, SECRET_KEY, {
+      expiresIn: "1d",
+    });
+    res.cookie(TOKEN_ID, token, {
+      expires: new Date(Date.now() + ONE_DAY),
+      httpOnly: true,
+    });
+    return res.status(200).json(payload);
+  };
+
+  const checkSalt = async () => {
+    pbkdf2(inputPassword, uPasswordSalt, 94751, 64, "sha512", (_, key) => {
+      if (uPassword === key.toString("base64")) {
+        createJwt();
+      }
+      return res.status(403).json({ message: "Invalid user" });
+    });
+  };
+  await checkSalt();
+};
+
+const logout = (req: Request, res: Response) => {
+  res.clearCookie(TOKEN_ID);
+  return res.status(200).send("");
+};
+
+const authCheck = async (req: Request, res: Response) => {
+  const return401 = () => res.status(401).json({ message: "INVALID TOKEN" });
+  try {
+    const { cookie } = req.headers;
+    const tokenKeyValue = cookie
+      .split(";")
+      .map((cookieString) => cookieString.trim().split("="))
+      .find((tokenKeyValue) => tokenKeyValue.includes(TOKEN_ID));
+    const token = tokenKeyValue?.[TOKEN_VALUE_INDEX];
+
+    if (!token) {
+      return return401();
     }
-  });
+    const data = jwt.verify(token, SECRET_KEY);
+    return res.status(200).json({ data });
+  } catch (e) {
+    console.info("INVALID TOKEN");
+    return return401();
+  }
 };
 
 const getEditorInfo = async (req: Request, res: Response) => {
@@ -198,6 +278,8 @@ const user = {
   signUpEditor,
   logIn,
   getEditorInfo,
+  logout,
+  authCheck,
   checkedEmail,
   setUpEditorProfile,
   setUpAssignments,

@@ -6,7 +6,6 @@ import { isLiveServer, PORT } from "./models/constant";
 import { runSocket } from "./socket/event";
 
 dotEnv.config();
-
 const opmServer = getServer();
 opmServer.listen(PORT, () => {
   console.info(

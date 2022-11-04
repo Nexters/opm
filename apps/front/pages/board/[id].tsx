@@ -34,7 +34,6 @@ const Board: NextPage = () => {
     board.aEditList?.[board.aEditList.length - 1]?.aProofread ?? board.aContent,
   );
   const [isRender, setIsRender] = useState(false);
-
   useEffect(() => {
     if (isRender || !pathAid) {
       return;

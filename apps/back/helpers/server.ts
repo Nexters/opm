@@ -7,6 +7,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
 import mongoose from "mongoose";
+import { Url } from "opm-models";
 
 import routes from "../routes";
 import { specs } from "../swagger/swagger";
@@ -26,9 +27,11 @@ const getServerOptions = () => {
   }
   return serverOptions;
 };
+const corsOrigin =
+  process.env.NODE_ENV === "production" ? Url.REAL_FRONT : Url.LOCAL_FRONT;
 
 const setUpMiddleware = (app: Express) => {
-  app.use(cors());
+  app.use(cors({ origin: corsOrigin, credentials: true }));
   app.use(bodyParser.json());
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
   app.use(routes);

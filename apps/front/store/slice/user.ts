@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { UserInfo } from "opm-models";
+import { UserApiPath, UserInfo } from "opm-models";
+
+import { Api } from "../../helpers/api";
 
 export interface UserState extends Partial<UserInfo> {}
 
@@ -14,6 +16,8 @@ export const userSlice = createSlice({
       return { ...action.payload };
     },
     logout: () => {
+      // TODO: redux-saga, thunk 등으로 비동기 제어가 필요함.
+      Api.get(UserApiPath.logout);
       return {};
     },
   },

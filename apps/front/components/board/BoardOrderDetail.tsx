@@ -1,10 +1,6 @@
-import type { NextPage } from "next";
 import Image from "next/image";
-import { BoardInfo } from "opm-models";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
-import { RootState } from "../../store";
 import styles from "../../styles/Board.module.scss";
 
 interface IProps {
@@ -12,7 +8,6 @@ interface IProps {
 }
 const BoardOrderDetail = (props: IProps) => {
   const content = props.content;
-  const board = useSelector<RootState, BoardInfo>((state) => state.board);
 
   const [countWords, setCountWords] = useState<number>(0);
   const [calcPrice, setCalcPrice] = useState<number>();

@@ -8,9 +8,12 @@ import board from "./board";
 
 const router = Router();
 
+router.get(UserApiPath.authCheck, user.authCheck);
+
 router.post(UserApiPath.signUp, user.signUpUser);
 router.post(UserApiPath.signUpEditor, user.signUpEditor);
 router.post(UserApiPath.logIn, user.logIn);
+router.get(UserApiPath.logout, user.logout);
 router.post(UserApiPath.getEditorInfo, user.getEditorInfo);
 router.post(UserApiPath.checkedEmail, user.checkedEmail);
 router.post(
