@@ -9,9 +9,9 @@ import useWindowSize from "../hooks/useWindowSize";
 import Error from "../components/common/Error";
 import wrapper, { RootState } from "../store";
 import { Api } from "../helpers/api";
-import { logIn } from "../store/slice/user";
+import { login } from "../store/slice/user";
 
-const allowedPaths = ["/", "/posts", "/board", "/logIn"];
+const allowedPaths = ["/", "/posts", "/board", "/login"];
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [width, height] = useWindowSize();
@@ -20,16 +20,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   const user = useSelector<RootState, UserInfo>((state) => state.user);
 
   useEffect(() => {
-    if (user.uId || router.pathname === "/logIn") return;
+    if (user.uId || router.pathname === "/login") return;
     const getAuthToken = async () => {
       const res = await Api.get(UserApiPath.authCheck);
       if (res.ok) {
         const { data } = await res.json();
-        dispatch(logIn(data));
+        dispatch(login(data));
         return;
       }
       if (allowedPaths.includes(router.pathname)) return;
-      router.push("/logIn");
+      router.push("/login");
     };
     getAuthToken();
   }, [user.uId, router, dispatch]);

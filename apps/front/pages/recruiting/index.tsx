@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Navigation from "../../components/common/Navigation";
 import Footer from "../../components/common/Footer";
 import styles from "../../styles/Login.module.scss";
-import { logIn, logout } from "../../store/slice/user";
+import { login, logout } from "../../store/slice/user";
 import { Api } from "../../helpers/api";
 import { RootState } from "../../store";
 import Loading from "../../components/common/Loading";
@@ -51,13 +51,13 @@ const Recruiting: NextPage = () => {
   };
 
   const handleLogIn = async (data: UserLogInData) => {
-    const res = await Api.post(UserApiPath.logIn, data);
+    const res = await Api.post(UserApiPath.login, data);
     if (!res.ok) {
       alert("INVALID USER");
       return;
     }
     const jsonData = await res.json();
-    dispatch(logIn(jsonData));
+    dispatch(login(jsonData));
     router.push({
       pathname: "/recruiting/verification",
       query: { name: `${firstName} ${lastName}` },
@@ -186,7 +186,7 @@ const Recruiting: NextPage = () => {
               I agree to all the terms and <br />
               conditions of ATrans privacy policy and pricing.
             </label>
-            <div className={styles.logInBtn} onClick={handleSignUpClick}>
+            <div className={styles.loginBtn} onClick={handleSignUpClick}>
               Get started
             </div>
           </div>

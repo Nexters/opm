@@ -33,7 +33,7 @@ paths:
               uLastName:
                 type: string
 
-  /user/logIn:
+  /user/login:
     post:
       summary: "유저 로그인"
       tags:

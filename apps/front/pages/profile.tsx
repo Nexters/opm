@@ -55,7 +55,7 @@ const Profile: NextPage = () => {
   }, [user, router]);
 
   // if (!user.uId) {
-  //   router.push("/logIn");
+  //   router.push("/login");
   //   return <Loading />;
   // }
   // if (user.uEditorType === "BEGINNER") {

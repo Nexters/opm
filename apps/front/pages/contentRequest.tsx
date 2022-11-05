@@ -49,7 +49,7 @@ const ContentRequest: NextPage = () => {
   const [content, setContent] = useState<string>("");
 
   if (!user.uId) {
-    router.push("/logIn");
+    router.push("/login");
     return <Loading />;
   }
 

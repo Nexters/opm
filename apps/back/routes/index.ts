@@ -12,7 +12,7 @@ router.get(UserApiPath.authCheck, user.authCheck);
 
 router.post(UserApiPath.signUp, user.signUpUser);
 router.post(UserApiPath.signUpEditor, user.signUpEditor);
-router.post(UserApiPath.logIn, user.logIn);
+router.post(UserApiPath.login, user.login);
 router.get(UserApiPath.logout, user.logout);
 router.post(UserApiPath.getEditorInfo, user.getEditorInfo);
 router.post(UserApiPath.checkedEmail, user.checkedEmail);

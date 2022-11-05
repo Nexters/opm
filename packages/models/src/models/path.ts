@@ -18,7 +18,7 @@ export type UserApiKey =
   | "all"
   | "signUp"
   | "signUpEditor"
-  | "logIn"
+  | "login"
   | "logout"
   | "getEditorInfo"
   | "authCheck"
@@ -31,7 +31,7 @@ export enum UserApiEndPoint {
   all = "/user/all",
   signUp = "/user/signUp",
   signUpEditor = "/user/signUpEditor",
-  logIn = "/user/logIn",
+  login = "/user/login",
   logout = "/user/logout",
   getEditorInfo = "/user/getEditorInfo",
   authCheck = "/user/authCheck",

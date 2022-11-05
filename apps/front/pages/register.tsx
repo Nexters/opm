@@ -54,7 +54,7 @@ const Register: NextPage = () => {
     };
     const res = await Api.post(UserApiPath.signUp, data);
     if (res.ok) {
-      router.push("/logIn");
+      router.push("/login");
       return;
     }
     alert("Error!");
@@ -138,7 +138,7 @@ const Register: NextPage = () => {
               I agree to all the terms and <br />
               conditions of ATrans privacy policy and pricing.
             </label>
-            <div className={styles.logInBtn} onClick={handleSignUpClick}>
+            <div className={styles.loginBtn} onClick={handleSignUpClick}>
               Sign Up
             </div>
           </div>

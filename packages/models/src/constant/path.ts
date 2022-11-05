@@ -19,7 +19,7 @@ export const UserApiPath: Record<UserApiKey, string> = {
   all: UserApiEndPoint.all,
   signUp: UserApiEndPoint.signUp,
   signUpEditor: UserApiEndPoint.signUpEditor,
-  logIn: UserApiEndPoint.logIn,
+  login: UserApiEndPoint.login,
   logout: UserApiEndPoint.logout,
   getEditorInfo: UserApiEndPoint.getEditorInfo,
   authCheck: UserApiEndPoint.authCheck,

@@ -17,7 +17,7 @@ const Verification = () => {
   const user = useSelector<RootState, UserInfo>((state) => state.user);
 
   if (!user.uId) {
-    router.push("/logIn");
+    router.push("/login");
     return;
   }
 
@@ -113,7 +113,7 @@ const Verification = () => {
           <div className={styles.editorSignUpBtnContainer}>
             <div
               className={
-                verifiedEmail ? styles.logInBtn : styles.disableLoginBtn
+                verifiedEmail ? styles.loginBtn : styles.disableLoginBtn
               }
               onClick={handleNextBtnClick}
             >

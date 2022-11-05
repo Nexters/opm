@@ -26,7 +26,7 @@ const Navigation: NextPage<NavigationProps> = ({
 
   const handleProfile = () => {
     if (!user.uId) {
-      router.push("/logIn");
+      router.push("/login");
       return;
     }
     router.push("/profile");
@@ -34,7 +34,7 @@ const Navigation: NextPage<NavigationProps> = ({
 
   const handleRequest = () => {
     if (!user.uId) {
-      router.push("/logIn");
+      router.push("/login");
       return;
     }
     router.push("/contentRequest");
@@ -46,7 +46,7 @@ const Navigation: NextPage<NavigationProps> = ({
 
   const handleDropdown = () => {
     if (!user.uId) {
-      router.push("/logIn");
+      router.push("/login");
       return;
     }
     setDropdownVisible(!dropdownVisible);

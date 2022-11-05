@@ -10,7 +10,7 @@ interface ButtonProps {
 const Button: FunctionComponent<ButtonProps> = ({ label, onClick }) => {
   return (
     <div className={styles.nextButtonContainer}>
-      <div className={styles.logInBtn} onClick={onClick}>
+      <div className={styles.loginBtn} onClick={onClick}>
         {label}
       </div>
     </div>

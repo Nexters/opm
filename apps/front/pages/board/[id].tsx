@@ -54,7 +54,7 @@ const Board: NextPage = () => {
 
   const handleAcceptButtonClick = async () => {
     if (!user.uId) {
-      return router.push("/logIn");
+      return router.push("/login");
     }
     const param = {
       aId: board.aId,

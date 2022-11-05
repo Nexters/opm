@@ -1,3 +1,5 @@
+import { createCipheriv } from "crypto";
+
 import type { NextPage } from "next";
 import { KeyboardEventHandler, useState } from "react";
 import Head from "next/head";
@@ -9,7 +11,7 @@ import { useDispatch } from "react-redux";
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
-import { logIn } from "../store/slice/user";
+import { login } from "../store/slice/user";
 import { Api } from "../helpers/api";
 
 const Login: NextPage = () => {
@@ -55,11 +57,19 @@ const Login: NextPage = () => {
       setValidPassword(false);
       return;
     }
+
+    const algorithm = "aes-256-cbc";
+    const key = Buffer.from(process.env.NEXT_PUBLIC_CIPHER_KEY!);
+    const iv = Buffer.from(process.env.NEXT_PUBLIC_CIPHER_IV!);
+    const cipher = createCipheriv(algorithm, key, iv);
+    let hashPassword = cipher.update(password, "utf8", "base64");
+    hashPassword += cipher.final("base64");
+
     const data: UserLogInData = {
       uEmail: email,
-      uPassword: password,
+      uPassword: hashPassword,
     };
-    const res = await Api.post(UserApiPath.logIn, data);
+    const res = await Api.post(UserApiPath.login, data);
     if (!res.ok) {
       setValidEmail(false);
       setValidPassword(false);
@@ -67,7 +77,7 @@ const Login: NextPage = () => {
       return;
     }
     const jsonData = await res.json();
-    dispatch(logIn(jsonData));
+    dispatch(login(jsonData));
     router.push("/");
   };
 
@@ -120,8 +130,8 @@ const Login: NextPage = () => {
               />
             </div>
           </div>
-          <div className={styles.logInButtonContainer}>
-            <div className={styles.logInBtn} onClick={handleLogInClick}>
+          <div className={styles.loginButtonContainer}>
+            <div className={styles.loginBtn} onClick={handleLogInClick}>
               Log In
             </div>
             <Link href="/register">

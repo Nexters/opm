@@ -113,7 +113,7 @@ const SetUpProfile = () => {
 
   useEffect(() => {
     if (!user.uId) {
-      router.push("/logIn");
+      router.push("/login");
       return;
     }
 
@@ -420,7 +420,7 @@ const SetUpProfile = () => {
                 <div className={styles.editorSignUpBtnContainer}>
                   <div
                     className={
-                      activeBtn ? styles.logInBtn : styles.disableLoginBtn
+                      activeBtn ? styles.loginBtn : styles.disableLoginBtn
                     }
                     onClick={handleNextBtnClick}
                   >

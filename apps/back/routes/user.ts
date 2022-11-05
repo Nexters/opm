@@ -1,4 +1,4 @@
-import { randomUUID, randomBytes, pbkdf2 } from "crypto";
+import { randomUUID, randomBytes, createDecipheriv, pbkdf2 } from "crypto";
 
 import { Request, Response } from "express";
 import { StatusCode, UserInfo } from "opm-models";
@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 
 import User from "../models/user.model";
 
-// 상태코드 정의
 const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
 const TOKEN_ID = "_tid";
@@ -101,11 +100,18 @@ const signUpEditor = async (req: Request, res: Response) => {
   });
 };
 
-const logIn = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response) => {
   const inputEmail = req.body.uEmail;
   const inputPassword = req.body.uPassword;
-  const user = await User.findOne({ uEmail: inputEmail });
 
+  const algorithm = "aes-256-cbc";
+  const key = Buffer.from(process.env.CIPHER_KEY);
+  const iv = Buffer.from(process.env.CIPHER_IV);
+  const decipher = createDecipheriv(algorithm, key, iv);
+  let originPassword = decipher.update(inputPassword, "base64", "utf8");
+  originPassword += decipher.final("utf8");
+
+  const user = await User.findOne({ uEmail: inputEmail });
   if (!user) {
     return res.status(StatusCode.BAD_REQUEST).send("wrong email");
   }
@@ -143,8 +149,15 @@ const logIn = async (req: Request, res: Response) => {
     uCreateDate,
   };
 
-  const createJwt = () => {
-    // TODO: refresh token.
+  try {
+    await new Promise((resolve, reject) => {
+      pbkdf2(originPassword, uPasswordSalt, 94751, 64, "sha512", (_, key) => {
+        if (uPassword === key.toString("base64")) {
+          return resolve(true);
+        }
+        return reject("INVALID USER");
+      });
+    });
     const token = jwt.sign(payload, SECRET_KEY, {
       expiresIn: "1d",
     });
@@ -153,17 +166,10 @@ const logIn = async (req: Request, res: Response) => {
       httpOnly: true,
     });
     return res.status(200).json(payload);
-  };
-
-  const checkSalt = async () => {
-    pbkdf2(inputPassword, uPasswordSalt, 94751, 64, "sha512", (_, key) => {
-      if (uPassword === key.toString("base64")) {
-        createJwt();
-      }
-      return res.status(403).json({ message: "Invalid user" });
-    });
-  };
-  await checkSalt();
+  } catch (e) {
+    console.error(e);
+    return res.status(401).send({ message: "INVALID USER" });
+  }
 };
 
 const logout = (req: Request, res: Response) => {
@@ -276,7 +282,7 @@ const setUpCertificates = async (req: Request, res: Response) => {
 const user = {
   signUpUser,
   signUpEditor,
-  logIn,
+  login,
   getEditorInfo,
   logout,
   authCheck,

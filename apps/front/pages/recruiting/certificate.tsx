@@ -104,7 +104,7 @@ const Certificate = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (!user.uId) {
-    router.push("/logIn");
+    router.push("/login");
     return;
   }
   if (user.uCertificate?.resume && user.uEditorType === "BEGINNER") {
@@ -165,7 +165,7 @@ const Certificate = () => {
     const res = await Api.filePost(UserApiPath.setUpCertificates, formData);
     if (res.ok) {
       logout();
-      router.push("/logIn");
+      router.push("/login");
       return;
     }
   };
@@ -257,7 +257,7 @@ const Certificate = () => {
             </div>
             <div className={styles.editorSignUpBtnContainer}>
               <div
-                className={activeBtn ? styles.logInBtn : styles.disableLoginBtn}
+                className={activeBtn ? styles.loginBtn : styles.disableLoginBtn}
                 onClick={handleSubmitBtnClick}
               >
                 Submit
