@@ -1,5 +1,6 @@
 import { ParsedUrlQuery } from "querystring";
 
+import Head from "next/head";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { UserInfo } from "opm-models";
@@ -79,6 +80,11 @@ const Profile: NextPage = () => {
 
   return (
     <div>
+      <Head>
+        <title>ATrans</title>
+        <meta name="description" content="OPM" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navigation />
       <div className={styles.container}>
         <div className={styles.menuContainer}>

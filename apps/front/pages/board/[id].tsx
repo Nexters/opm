@@ -138,7 +138,7 @@ const Board: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Content View WireFrame</title>
+        <title>ATrans</title>
         <meta name="description" content="OPM" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

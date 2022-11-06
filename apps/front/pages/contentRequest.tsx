@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
@@ -89,6 +90,11 @@ const ContentRequest: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>ATrans</title>
+        <meta name="description" content="OPM" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navigation />
       <main className={styles.boardContainer}>
         <BackButton onClick={backPhase} />

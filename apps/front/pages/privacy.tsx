@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import Head from "next/head";
 import { UserInfo } from "opm-models";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,11 @@ const Privacy: NextPage = () => {
 
   return (
     <div>
+      <Head>
+        <title>ATrans</title>
+        <meta name="description" content="OPM" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navigation />
       <div className={styles.container}>
         <div className={styles.menuContainer}>Privacy Policy</div>
