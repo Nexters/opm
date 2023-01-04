@@ -35,7 +35,7 @@ const ProfileAndDescription: FunctionComponent = () => {
   };
 
   const calcEarnings = (num: number) => {
-    return num * 0.3;
+    return Math.round(num * 0.3 * 100) / 100;
   };
 
   return (

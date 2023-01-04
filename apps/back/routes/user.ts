@@ -178,7 +178,7 @@ const logout = (req: Request, res: Response) => {
 };
 
 const authCheck = async (req: Request, res: Response) => {
-  const return401 = () => res.status(401).json({ message: "INVALID TOKEN" });
+  // const return401 = () => res.status(401).json({ message: "INVALID TOKEN" });
   try {
     const { cookie } = req.headers;
     const tokenKeyValue = cookie
@@ -188,13 +188,13 @@ const authCheck = async (req: Request, res: Response) => {
     const token = tokenKeyValue?.[TOKEN_VALUE_INDEX];
 
     if (!token) {
-      return return401();
+      throw Error;
     }
     const data = jwt.verify(token, SECRET_KEY);
     return res.status(200).json({ data });
   } catch (e) {
     console.info("INVALID TOKEN");
-    return return401();
+    // return return401();
   }
 };
 
